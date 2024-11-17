@@ -1,9 +1,9 @@
 import React from "react";
 
-function SignUpForm() {
+function LogInForm() {
     return (
         <>
-            <h2>Sign Up</h2>
+            <h2>Log In</h2>
             <form>
                 <label htmlFor='username'>Username: </label>
                 <input
@@ -16,21 +16,11 @@ function SignUpForm() {
                 id='password'
                 name='password'
                 />
-                <label htmlFor='profile-pic'>Profile Pic Image URL: </label>
-                <input
-                id='profile-pic'
-                name='profile-pic'
-                />
-                <label htmlFor='bio'>Bio: </label>
-                <input
-                id='bio'
-                name='bio'
-                />
                 <br />
-                <button>Sign Up</button>
+                <button>Log In</button>
         </form>
       </>
     )
 }
 
-export default SignUpForm
+export default LogInForm;
