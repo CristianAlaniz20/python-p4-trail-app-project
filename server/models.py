@@ -8,8 +8,32 @@ from config import db, bcrypt
 # Models go here!
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
-    
-    pass
+
+    # Create Model Columns
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, nullable=False, unique=True)
+    _password_hash = db.Column(db.String)
+    profile_image_url = db.Column(db.String)
+    bio = db.Column(db.String)
+
+    # For debugging purposes
+    def __repr__(self):
+      return f'User {self.username}, ID {self.id}, Image URL {self.profile_image_url}, BIO {self.bio}'
+
+    # Hashing and Salting password
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError("Password hashes are not accessible.")
+
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(
+        password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
 
 class Trail(db.Model, SerializerMixin):
     __tablename__ = "trails"
