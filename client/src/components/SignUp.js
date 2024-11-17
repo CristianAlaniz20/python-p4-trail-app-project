@@ -1,6 +1,6 @@
 import React from "react";
 
-function SignUp() {
+function SignUpForm() {
     return (
         <>
             <h2>Sign Up</h2>
@@ -33,4 +33,4 @@ function SignUp() {
     )
 }
 
-export default SignUp
+export default SignUpForm

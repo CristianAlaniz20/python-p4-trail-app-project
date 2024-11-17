@@ -1,6 +1,6 @@
 import React from "react";
 
-function LogIn() {
+function LogInForm() {
     return (
         <>
             <h2>Log In</h2>
@@ -23,4 +23,4 @@ function LogIn() {
     )
 }
 
-export default LogIn;
+export default LogInForm;
