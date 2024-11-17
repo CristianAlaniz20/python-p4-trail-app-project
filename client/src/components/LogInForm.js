@@ -22,7 +22,7 @@ function LogInForm() {
     })
 
     const formik = useFormik({
-        intialValues : {
+        initialValues : {
             username: "",
             password: ""
         },
@@ -36,7 +36,7 @@ function LogInForm() {
               body: JSON.stringify(values, null, 2),
             })
             .then((res) => {
-              if (res.status == 201) {
+              if (res.status === 201) {
                 setRefreshPage(!refreshPage)
               }
             })
@@ -47,11 +47,13 @@ function LogInForm() {
     return (
         <>
             <h2>User Log In Form</h2>
-            <form>
+            <form onSubmit={formik.handleSubmit}>
                 <label htmlFor='username'>Username: </label>
                 <input
                 id='username' 
-                name='username' 
+                name='username'
+                onChange={formik.handleChange}
+                value={formik.values.username}
                 />
                 <br />
 
@@ -59,10 +61,12 @@ function LogInForm() {
                 <input
                 id='password'
                 name='password'
+                onChange={formik.handleChange}
+                value={formik.values.password}
                 />
                 <br />
 
-                <button>Log In</button>
+                <button type="submit">Log In</button>
             </form>
         </>
     )
