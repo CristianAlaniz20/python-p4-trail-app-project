@@ -9,7 +9,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
-    # Create Model Columns
+    # Create User Columns
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String)
@@ -38,14 +38,49 @@ class User(db.Model, SerializerMixin):
 class Trail(db.Model, SerializerMixin):
     __tablename__ = "trails"
 
-    pass
+    # Create Trail columns
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    length = db.Column(db.Float)
+    description = db.Column(db.String)
+    image_url = db.Column(db.String)
 
+    # For debugging purposes
+    def __repr__(self):
+      return f'Trail ID {self.id}, NAME {self.name}, LENGTH {self.length}, ADDRESS {self.address}, Image URL {self.image_url}, DESCRIPTION {self.description}'
+
+    # Checks that description is not longer than 100 characters
+    @validates('description')
+    def validates_instructions(self, key, value):
+        if len(value) > 100:
+            raise ValueError("Description cannot be more than 100 characters long.")
+        return value
+    
 class UserTrail(db.Model, SerializerMixin):
     __tablename__ = "user_trails"
 
-    pass
+    # Create UserTrail Columns
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'))
+    is_hiked = db.Column(db.Boolean, default=False, nullable=False)
+
+    # For debugging purposes
+    def __repr__(self):
+      return f'UserTrail ID {self.id}, User_ID {self.user_id}, Trail_ID {self.trail_id}, Is_Hiked {self.is_hiked}'
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = "reviews"
 
-    pass
+    #Create Review Columns
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer)
+    text = db.Column(db.String)
+    user_id = db.Column(db.Integer)
+    trail_id = db.Column(db.Integer)
+    _username = db.Column(db.String)
+
+    # For debugging purposes
+    def __repr__(self):
+      return f'Review ID {self.id}, RATING {self.rating}, TEXT {self.text}, User_ID {self.user_id}, Trail_ID {self.trail_id}, USERNAME {self._username}'
