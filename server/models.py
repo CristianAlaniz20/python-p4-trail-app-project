@@ -16,6 +16,12 @@ class User(db.Model, SerializerMixin):
     profile_image_url = db.Column(db.String)
     bio = db.Column(db.String)
 
+    # Create model relationships
+    user_trails = db.relationships("UserTrail", back_populates="user", cascade="all, delete-orphan")
+
+    # Assocation proxy to reach trails
+    trails = association_proxy('user_trails', 'trail', creator=lambda trail_obj: UserTrail(trail=trail_obj))
+
     # For debugging purposes
     def __repr__(self):
       return f'User {self.username}, ID {self.id}, Image URL {self.profile_image_url}, BIO {self.bio}'
@@ -35,6 +41,7 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
 
+
 class Trail(db.Model, SerializerMixin):
     __tablename__ = "trails"
 
@@ -46,6 +53,12 @@ class Trail(db.Model, SerializerMixin):
     description = db.Column(db.String)
     image_url = db.Column(db.String)
 
+    # Create model relationships
+    user_trails = db.relationships("UserTrail", back_populates="trail", cascade="all, delete-orphan")
+
+    # Assocation proxy to reach trails
+    users = association_proxy('user_trails', 'user', creator=lambda user_obj: UserTrail(user=user_obj))
+
     # For debugging purposes
     def __repr__(self):
       return f'Trail ID {self.id}, NAME {self.name}, LENGTH {self.length}, ADDRESS {self.address}, Image URL {self.image_url}, DESCRIPTION {self.description}'
@@ -56,6 +69,7 @@ class Trail(db.Model, SerializerMixin):
         if len(value) > 100:
             raise ValueError("Description cannot be more than 100 characters long.")
         return value
+
     
 class UserTrail(db.Model, SerializerMixin):
     __tablename__ = "user_trails"
@@ -66,9 +80,15 @@ class UserTrail(db.Model, SerializerMixin):
     trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'))
     is_hiked = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Create model relationships
+    user = db.relationships("User", back_populates="user_trails")
+
+    trai = db.relationships("Trail", back_populates="user_trails")
+
     # For debugging purposes
     def __repr__(self):
       return f'UserTrail ID {self.id}, User_ID {self.user_id}, Trail_ID {self.trail_id}, Is_Hiked {self.is_hiked}'
+
 
 class Review(db.Model, SerializerMixin):
     __tablename__ = "reviews"
