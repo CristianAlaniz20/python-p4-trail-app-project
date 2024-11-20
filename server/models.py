@@ -17,7 +17,7 @@ class User(db.Model, SerializerMixin):
     bio = db.Column(db.String)
 
     # Create model relationships
-    user_trails = db.relationships("UserTrail", back_populates="user", cascade="all, delete-orphan")
+    user_trails = db.relationship("UserTrail", back_populates="user", cascade="all, delete-orphan")
 
     # Assocation proxy to reach trails
     trails = association_proxy('user_trails', 'trail', creator=lambda trail_obj: UserTrail(trail=trail_obj))
@@ -54,7 +54,7 @@ class Trail(db.Model, SerializerMixin):
     image_url = db.Column(db.String)
 
     # Create model relationships
-    user_trails = db.relationships("UserTrail", back_populates="trail", cascade="all, delete-orphan")
+    user_trails = db.relationship("UserTrail", back_populates="trail", cascade="all, delete-orphan")
 
     # Assocation proxy to reach trails
     users = association_proxy('user_trails', 'user', creator=lambda user_obj: UserTrail(user=user_obj))
@@ -81,9 +81,9 @@ class UserTrail(db.Model, SerializerMixin):
     is_hiked = db.Column(db.Boolean, default=False, nullable=False)
 
     # Create model relationships
-    user = db.relationships("User", back_populates="user_trails")
+    user = db.relationship("User", back_populates="user_trails")
 
-    trai = db.relationships("Trail", back_populates="user_trails")
+    trail = db.relationship("Trail", back_populates="user_trails")
 
     # For debugging purposes
     def __repr__(self):

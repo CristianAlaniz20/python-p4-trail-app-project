@@ -65,7 +65,7 @@ if __name__ == '__main__':
                 name=name,
                 address=fake.address(),
                 length=uniform(0.5, 10),
-                description=fake.paragraph(nb_sentences=3),
+                description=fake.paragraph(nb_sentences=1),
                 image_url=fake.url()
             )
 
