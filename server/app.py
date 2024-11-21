@@ -3,8 +3,9 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request
+from flask import request, session, jsonify, make_response
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 
 # Local imports
 from config import app, db, api
@@ -13,9 +14,41 @@ from models import User, Trail, UserTrail, Review
 
 # Views go here!
 
-@app.route('/')
-def index():
-    return '<h1>Project Server</h1>'
+class Signup(Resource):
+    def post(self):
+        data = request.get_json()
+        print(data)
+        username = data.get('username', None)
+        password = data['password']
+        image_url = data['profileImage']
+        bio = data['bio']
+
+        if not username:
+            print("NO username in data!")#
+            return make_response(jsonify({'errors': 'Missing username.'}), 422)
+
+        new_user = User(username=username, profile_image_url=image_url, bio=bio)
+        print(new_user)
+        try:
+            new_user.password_hash = password 
+
+            db.session.add(new_user)
+            db.session.commit()
+
+            session['user_id'] = new_user.id
+
+            return make_response(new_user.to_dict(), 201)
+
+        except IntegrityError:
+            db.session.rollback()
+            print("IntegrityError: User Already exists.")
+            return make_response(jsonify({'errors': 'Username already taken.'}), 422)
+
+        except Exception as e:
+            db.session.rollback()
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
+api.add_resource(Signup, '/signup', endpoint='signup')
 
 
 if __name__ == '__main__':
