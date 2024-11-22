@@ -1,21 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-function LogInForm() {
-    const [trails, setTrails] = useState([{}]);
-    const [refreshPage, setRefreshPage] = useState(false);
-
-    useEffect(() => {
-        console.log("FETCH! ");
-        fetch("/trails")
-        .then((res) => res.json())
-        .then((data) => {
-            setTrails(data);
-            console.log(data);
-        });
-    }, [refreshPage]);
-
+function LogInForm({ onLogin }) {
     const formSchema = yup.object().shape({
         username: yup.string().required("Must enter a username."),
         password: yup.string().required("Must enter a password")
@@ -28,17 +15,15 @@ function LogInForm() {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch("trails", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(values, null, 2),
-            })
+          print(values)
+            fetch("login")
             .then((res) => {
-              if (res.status === 201) {
-                setRefreshPage(!refreshPage)
+              if (res.status === 200) {
+                onLogin(values)
               }
+            })
+            .catch(error => {
+              console.error(error)
             })
           },
         })
@@ -52,6 +37,7 @@ function LogInForm() {
                 <input
                 id='username' 
                 name='username'
+                type="text"
                 onChange={formik.handleChange}
                 value={formik.values.username}
                 />
@@ -61,6 +47,7 @@ function LogInForm() {
                 <input
                 id='password'
                 name='password'
+                type="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 />
