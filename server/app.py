@@ -48,7 +48,32 @@ class Signup(Resource):
             db.session.rollback()
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
+class Login(Resource):
+    def post(self):
+        # Get request information
+        data = request.get_json()
+        print(data)
+        username = data.get('username', None)
+        password = data['password']
+
+        # Check if a user in db matches username in request
+        user = User.query.filter(User.username == username).first()
+        print(user)
+        if not user:
+            return make_response(jsonify({"error" : "invalid username"}), 401)
+
+        # Check if password in request matches the password in db for User
+        if user.authenticate(password):
+            session['user_id'] = user.id
+
+            return make_response(user.to_dict(), 200)
+
+        # invalid username or password message
+        return make_response(jsonify({"error" : "invalid username or password."}), 401)
+
+
 api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(Login, '/login', endpoint='login')
 
 
 if __name__ == '__main__':

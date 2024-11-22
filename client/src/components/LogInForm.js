@@ -16,7 +16,13 @@ function LogInForm({ onLogin }) {
         validationSchema: formSchema,
         onSubmit: (values) => {
           console.log(values)
-            fetch("login")
+            fetch("login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(values, null, 2),
+            })
             .then((res) => {
               if (res.status === 200) {
                 onLogin(values)
