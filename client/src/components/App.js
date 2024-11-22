@@ -4,7 +4,31 @@ import LogIn from "./LogIn";
 
 function App() {
   const [user, setUser] = useState(null)
-  console.log(`User: ${user}`)
+  const [trails, setTrails] = useState(null)
+
+  useEffect(() => {
+    // auto-login
+    fetch("/check_session")
+    .then((res) => {
+      if (res.status === 200) {
+        res.json()
+        .then((resUser) => setUser(resUser));
+      }
+    })
+    .catch(error => console.error(error))
+  }, []);
+
+  useEffect(() => {
+    // get trails
+    fetch("/trails")
+    .then(res => {
+      if (res.status === 200) {
+        res.json()
+        .then(resTrails => setTrails(resTrails))
+      }
+    })
+    .catch(error => console.error(error))
+  }, [user])
 
   return (
     <div>
