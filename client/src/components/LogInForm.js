@@ -15,7 +15,7 @@ function LogInForm({ onLogin }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-          print(values)
+          console.log(values)
             fetch("login")
             .then((res) => {
               if (res.status === 200) {
