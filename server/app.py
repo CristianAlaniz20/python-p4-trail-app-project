@@ -71,9 +71,22 @@ class Login(Resource):
         # invalid username or password message
         return make_response(jsonify({"error" : "invalid username or password."}), 401)
 
+class CheckSession(Resource):
+    def get(self):
+        user_id = session['user_id']
+        print(f"user id: {user_id}")
+
+        #check if user_id has any value
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
+            return make_response(user.to_dict(), 200)
+        else:
+            return make_response(jsonify({"error" : "You are not logged in."}), 401)
+
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 
 
 if __name__ == '__main__':
