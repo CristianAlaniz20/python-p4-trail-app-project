@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Trail from "./Trail"
 
-function AllTrails({ trails }) {
+function AllTrails() {
     const [trails, setTrails] = useState([])
 
     useEffect(() => {
