@@ -94,20 +94,25 @@ class Logout(Resource):
             return make_response(jsonify({"error" : 'Cannot logout because you are already logged out'}), 401)
 
 class Trails(Resource):
-    def get(self):
-        user_id = session['user_id']
+    def post(self):
+        address = request.json.get('city')
 
-        if user_id:
-            try:
-                trails = [trail.to_dict() for trail in Trail.query.all()]
+        if not address:
+            print("no adress")
+            return make_response(jsonify({"error" : "No city was received"}), 422)
 
-                return make_response(trails, 200)
+        try:
+            trails = [trail.to_dict() for trail in Trail.query.all() if address.lower() in trail.address.lower()]
 
-            except Exception as e:
-                db.session.rollback()
-                return make_response(jsonify({'errors': f"{str(e)}"}), 422)
-        
-        return make_response(jsonify({"error" : "You are not logged in"}), 404)
+            return make_response(trails, 201)
+
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
+        print("Something went wrong")
+        return make_response(jsonify({"error" : "Something went wrong"}), 404)
 
 
 

@@ -32,10 +32,10 @@ function AllTrails() {
     return (
         <div>
             <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="search-city" >Enter City Here: </label>
+                <label htmlFor="city" >Enter City Here: </label>
                 <input 
-                  id="search-city"
-                  name="search-city"
+                  id="city"
+                  name="city"
                   onChange={formik.handleChange}
                   value={formik.values.city}
                 />
