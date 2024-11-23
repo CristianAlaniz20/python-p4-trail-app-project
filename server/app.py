@@ -83,10 +83,21 @@ class CheckSession(Resource):
         else:
             return make_response(jsonify({"error" : "You are not logged in."}), 401)
 
+class Logout(Resource):
+    def delete(self):
+        user_id = session['user_id']
+        if user_id:
+            session['user_id'] = None
+
+            return make_response({}, 204)
+        else:
+            return make_response(jsonify({"error" : 'Cannot logout because you are already logged out'}), 401)
+
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 
 if __name__ == '__main__':
