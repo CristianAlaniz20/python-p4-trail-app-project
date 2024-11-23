@@ -59,6 +59,9 @@ class Trail(db.Model, SerializerMixin):
     # Assocation proxy to reach trails
     users = association_proxy('user_trails', 'user', creator=lambda user_obj: UserTrail(user=user_obj))
 
+    # Serialization rules
+    serialize_rules = ('-user_trails',)
+
     # For debugging purposes
     def __repr__(self):
       return f'Trail ID {self.id}, NAME {self.name}, LENGTH {self.length}, ADDRESS {self.address}, Image URL {self.image_url}, DESCRIPTION {self.description}'

@@ -6,11 +6,15 @@ function AllTrails() {
 
     useEffect(() => {
         // get trails
+        console.log("About to fetch trails...")
         fetch("/trails")
         .then(res => {
           if (res.status === 200) {
             res.json()
-            .then(resTrails => setTrails(resTrails))
+            .then(resTrails => {
+              console.log(`resTrail: ${resTrails}`)
+              setTrails(resTrails)
+            })
           }
         })
         .catch(error => console.error(error))
@@ -21,6 +25,7 @@ function AllTrails() {
             {/* Iterate through trails list and create a Trail JSX for each */}
             {trails.forEach(trail => {
                 <Trail 
+                    key={trail.id}
                     name={trail.name} 
                     address={trail.address} 
                     length={trail.length}

@@ -8,7 +8,7 @@ function Trail({ name, address, length, description, profileImage }) {
             <img id="trail-pic" src={profileImage} alt="trail-pic" />
             <h4 id="trail-name" >{name}</h4>
             <address>{address}</address>
-            <p id="trail-length" >{length}</p>
+            <p id="trail-length" >{length} miles</p>
             <p id="trail-description" >{description}</p>
         </div>
     )
