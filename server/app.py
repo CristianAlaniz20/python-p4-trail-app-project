@@ -96,12 +96,10 @@ class Logout(Resource):
 class Trails(Resource):
     def get(self):
         user_id = session['user_id']
-        print(user_id)
 
         if user_id:
             try:
                 trails = [trail.to_dict() for trail in Trail.query.all()]
-                print(trails)
 
                 return make_response(trails, 200)
 
