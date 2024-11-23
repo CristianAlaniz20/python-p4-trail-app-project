@@ -93,11 +93,22 @@ class Logout(Resource):
         else:
             return make_response(jsonify({"error" : 'Cannot logout because you are already logged out'}), 401)
 
+class Trails(Resource):
+    def get(self):
+        trails = [trail.to_dict() for trail in Trail.query.all()]
+
+        if trails:
+            return make_response(trails, 200)
+
+        return make_response(jsonify({"error" : "Something went wrong, could not find trails."}, 204))
+
+
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(Trails, '/trails', endpoint='trails')
 
 
 if __name__ == '__main__':
