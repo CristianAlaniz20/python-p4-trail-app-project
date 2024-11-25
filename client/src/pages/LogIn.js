@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "../components/Header";
 import LogInForm from "../components/LogInForm";
 import SignUpForm from "../components/SignUpForm";
 
@@ -7,6 +8,7 @@ function LogIn({ onLogin }) {
 
     return (
         <div>
+            <Header />
             {hasAccount ? (
                 <>
                     <LogInForm onLogin={onLogin} />
