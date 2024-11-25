@@ -28,7 +28,7 @@ function App() {
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/trails_page" component={TrailPage} />
+          <Route path="/trails/:trail_id" component={TrailPage} />
         </Switch>
       </div>
     </Router>

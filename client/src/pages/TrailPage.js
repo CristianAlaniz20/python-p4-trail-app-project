@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import Review from "../components/Review"
 import Trail from "../components/Trail"
 
-function TrailPage({ name, address, length, description, profileImage }) {
+function TrailPage() {
     const [reviews, setReviews] = useState([])
+    const [trail, setTrail] = useState({})
+    const { trail_id } = useParams()
 
     useEffect(() => {
-        fetch("/reviews", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ "id" : id }),
-        })
+        // GET request for reviews with a trail_id equal to trail_id
+        fetch(`/reviews/${trail_id}`)
         .then(res => {
-            if (res.status === 201) {
+            if (res.status === 200) {
               res.json()
               .then(resReviews => {
                 console.log(`resReview: ${resReviews}`)
@@ -25,15 +23,31 @@ function TrailPage({ name, address, length, description, profileImage }) {
         .catch(error => console.error(error))
     }, [reviews])
 
+    useEffect(() => {
+        // GET request for a trail with an id of trail_id
+        fetch(`/trails/${trail_id}`)
+        .then(res => {
+            if (res.status === 200) {
+              res.json()
+              .then(resTrail => {
+                console.log(`resTrail: ${resTrail}`)
+                setTrail(resTrail)
+              })
+            }
+          })
+        .catch(error => console.error(error))
+    }, [])
+
     return (
         <>
             <Trail 
-                name={name} 
-                address={address} 
-                length={length}
-                description={description}
-                profileImage={profileImage}
+                name={trail.name} 
+                address={trail.address} 
+                length={trail.length}
+                description={trail.description}
+                profileImage={trail.profileImage}
             />
+            {/* Iterate through reviews list and create a Review JSX for each */}
             {reviews.length > 0 ? (
                 reviews.map(review => {
                     return (
