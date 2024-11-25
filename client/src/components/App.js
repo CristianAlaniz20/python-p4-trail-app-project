@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LogIn from "../pages/LogIn";
-import AllTrails from "./AllTrails";
-import Header from "./Header";
+import Home from "../pages/Home";
+import TrailPage from "../pages/TrailPage"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -20,18 +20,18 @@ function App() {
   }, []);
 
   if (!user) {
-    return (
-      <div>
-        <LogIn onLogin={setUser}/>
-      </div>
-    )
+    return <LogIn onLogin={setUser}/>
   }
 
   return (
-    <div>
-      <Header />
-      <AllTrails />
-    </div>
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/trails_page" component={TrailPage} />
+        </Switch>
+      </div>
+    </Router>
   )
 }
 
