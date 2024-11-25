@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import LogIn from "./LogIn";
+import LogIn from "../pages/LogIn";
 import AllTrails from "./AllTrails";
 
 function App() {

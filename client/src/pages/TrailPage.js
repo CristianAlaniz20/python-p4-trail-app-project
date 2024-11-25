@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Review from "./Review"
-import Trail from "./Trail"
+import Review from "../components/Review"
+import Trail from "../components/Trail"
 
 function TrailPage({ name, address, length, description, profileImage }) {
     const [reviews, setReviews] = useState([])
