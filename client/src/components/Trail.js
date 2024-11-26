@@ -1,15 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function Trail({ name, address, length, description, profileImage }) {
+function Trail({ id=null, name, address, length, description, profileImage }) {
+    const history = useHistory()
 
+    function handleClick() {
+        history.push(`trails/${id}`)
+    }
 
     return (
-        <div>
-            <img id="trail-pic" src={profileImage} alt="trail-pic" />
-            <h4 id="trail-name" >{name}</h4>
-            <address>{address}</address>
-            <p id="trail-length" >{length} miles</p>
-            <p id="trail-description" >{description}</p>
+        <div onClick={handleClick} >
+            <img className="trail-pic" src={profileImage} alt={`${name} trail-pic`} />
+            <h4 className="trail-name" >{name}</h4>
+            <address className="trail-adress">{address}</address>
+            <p className="trail-length" >{length} miles</p>
+            <p className="trail-description" >{description}</p>
         </div>
     )
 }

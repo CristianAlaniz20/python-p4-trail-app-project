@@ -10,6 +10,7 @@ function AllTrails() {
           city: ""
       },
       onSubmit: (values) => {
+          // POST request to get back trails with an adress of city
           fetch("trails", {
             method: "POST",
             headers: {
@@ -47,6 +48,7 @@ function AllTrails() {
                 return (
                   <Trail 
                     key={trail.id}
+                    id={trail.id}
                     name={trail.name} 
                     address={trail.address} 
                     length={trail.length}
