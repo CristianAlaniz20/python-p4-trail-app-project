@@ -169,8 +169,13 @@ class ReviewsForTrail(Resource):
             new_review.user_id = user_id
 
             db.session.add(new_review)
+
+            new_review._username = new_review.user.username
+
             db.session.commit()
             print(new_review)
+
+            return make_response(new_review.to_dict(), 201)
         
         except Exception as e:
             db.session.rollback()
