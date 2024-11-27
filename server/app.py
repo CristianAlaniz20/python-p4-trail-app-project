@@ -129,6 +129,22 @@ class TrailById(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
+class ReviewsForTrail(Resource):
+    def get(self, trail_id):
+        if not trail_id:
+            print("no trail id")
+            return make_response(jsonify({"error" : "No id is found."}), 422)
+
+        try:
+            reviews = [review.to_dict() for review in Review.query.all() if review.trail_id == trail_id]
+
+            return make_response(reviews, 200)
+
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
 
 
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -137,6 +153,7 @@ api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
+api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
 
 
 

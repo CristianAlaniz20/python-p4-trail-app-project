@@ -21,7 +21,7 @@ function TrailPage() {
             }
           })
         .catch(error => console.error(error))
-    }, [reviews])
+    }, [])
 
     useEffect(() => {
         // GET request for a trail with an id of trail_id

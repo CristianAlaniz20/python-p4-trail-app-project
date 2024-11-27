@@ -24,6 +24,9 @@ class User(db.Model, SerializerMixin):
     # Assocation proxy to reach trails
     trails = association_proxy('user_trails', 'trail', creator=lambda trail_obj: UserTrail(trail=trail_obj))
 
+    # Serialization rules
+    serialize_rules = ('-user_trails', '-reviews',)
+
     # For debugging purposes
     def __repr__(self):
       return f'User {self.username}, ID {self.id}, Image URL {self.profile_image_url}, BIO {self.bio}'
@@ -112,6 +115,9 @@ class Review(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="reviews")
 
     trail = db.relationship("Trail", back_populates="reviews")
+
+    # Serialization rules
+    serialize_rules = ('-user', '-trail',)
 
     # For debugging purposes
     def __repr__(self):
