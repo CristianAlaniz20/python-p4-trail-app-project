@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from app import app
-from models import db, User, Trail, UserTrail
+from models import db, User, Trail, UserTrail, Review
 
 if __name__ == '__main__':
     fake = Faker()
@@ -21,6 +21,7 @@ if __name__ == '__main__':
         User.query.delete()
         Trail.query.delete()
         UserTrail.query.delete()
+        Review.query.delete()
 
         # Create User records
         print("creating records...")
@@ -89,5 +90,22 @@ if __name__ == '__main__':
         db.session.add_all(user_trails)
         db.session.commit()
 
+        # Create Review records
+        print("Creating Reviews...")
+        reviews = []
+
+        for i in range(50):
+            review = Review(
+                rating=uniform(0, 5),
+                text=fake.paragraph(nb_sentences=3),
+                user = rc(users),
+                trail = rc(trails)
+            )
+            db.session.add(review)
+            db.session.flush()
+
+            review._username = review.user.username
+
+        db.session.commit()
 
         print("database seeded!")
