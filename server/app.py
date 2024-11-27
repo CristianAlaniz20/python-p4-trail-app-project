@@ -114,6 +114,21 @@ class TrailsIndex(Resource):
         print("Something went wrong")
         return make_response(jsonify({"error" : "Something went wrong"}), 404)
 
+class TrailById(Resource):
+    def get(self, trail_id):
+        if not trail_id:
+            return make_response(jsonify({"error" : "No id is found."}), 422)
+
+        try:
+            trail = Trail.query.filter(Trail.id == trail_id).first()
+
+            return make_response(trail.to_dict(), 200)
+
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
 
 
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -121,6 +136,8 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
+api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
+
 
 
 if __name__ == '__main__':

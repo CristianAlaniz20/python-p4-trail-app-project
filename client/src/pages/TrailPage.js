@@ -25,7 +25,7 @@ function TrailPage() {
 
     useEffect(() => {
         // GET request for a trail with an id of trail_id
-        fetch(`/trails/${trail_id}`)
+        fetch(`/trail/${trail_id}`)
         .then(res => {
             if (res.status === 200) {
               res.json()
