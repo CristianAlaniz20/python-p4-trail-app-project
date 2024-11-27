@@ -145,6 +145,39 @@ class ReviewsForTrail(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
+    def post(self, trail_id):
+        user_id = session['user_id']
+
+        # Check if trail_id and user_id have a value
+        if not trail_id or not user_id:
+            return make_response(jsonify({"error" : "Could not get trail_id or user_id"}), 422)
+
+        data = request.get_json()
+        rating = data['rating']
+        text = data['text']
+
+        # Check if ReviewForm information was recieved
+        if not data:
+            return make_response(jsonify({"error" : "No data was received."}), 422)
+
+        try:
+            new_review = Review(
+                rating=rating,
+                text=text
+            )
+            new_review.trail_id = trail_id
+            new_review.user_id = user_id
+
+            db.session.add(new_review)
+            db.session.commit()
+            print(new_review)
+        
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            
+
 
 
 api.add_resource(Signup, '/signup', endpoint='signup')
