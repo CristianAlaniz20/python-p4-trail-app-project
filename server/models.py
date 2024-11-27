@@ -19,6 +19,8 @@ class User(db.Model, SerializerMixin):
     # Create model relationships
     user_trails = db.relationship("UserTrail", back_populates="user", cascade="all, delete-orphan")
 
+    reviews = db.relationship('Review', back_populates="user", cascade='all, delete-orphan')
+
     # Assocation proxy to reach trails
     trails = association_proxy('user_trails', 'trail', creator=lambda trail_obj: UserTrail(trail=trail_obj))
 
@@ -55,6 +57,8 @@ class Trail(db.Model, SerializerMixin):
 
     # Create model relationships
     user_trails = db.relationship("UserTrail", back_populates="trail", cascade="all, delete-orphan")
+
+    reviews = db.relationship('Review', back_populates="trail", cascade='all, delete-orphan')
 
     # Assocation proxy to reach trails
     users = association_proxy('user_trails', 'user', creator=lambda user_obj: UserTrail(user=user_obj))
@@ -100,9 +104,14 @@ class Review(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer)
     text = db.Column(db.String)
-    user_id = db.Column(db.Integer)
-    trail_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'))
     _username = db.Column(db.String)
+
+    # Create model relationships
+    user = db.relationship("User", back_populates="reviews")
+
+    trail = db.relationship("Trail", back_populates="reviews")
 
     # For debugging purposes
     def __repr__(self):
