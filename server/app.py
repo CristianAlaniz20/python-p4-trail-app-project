@@ -93,7 +93,7 @@ class Logout(Resource):
         else:
             return make_response(jsonify({"error" : 'Cannot logout because you are already logged out'}), 401)
 
-class Trails(Resource):
+class TrailsIndex(Resource):
     def post(self):
         address = request.json.get('city')
 
@@ -120,7 +120,7 @@ api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Logout, '/logout', endpoint='logout')
-api.add_resource(Trails, '/trails', endpoint='trails')
+api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 
 
 if __name__ == '__main__':

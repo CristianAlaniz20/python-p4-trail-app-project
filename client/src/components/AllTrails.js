@@ -11,7 +11,7 @@ function AllTrails() {
       },
       onSubmit: (values) => {
           // POST request to get back trails with an adress of city
-          fetch("trails", {
+          fetch("trails_index", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
