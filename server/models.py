@@ -64,7 +64,7 @@ class Trail(db.Model, SerializerMixin):
     users = association_proxy('user_trails', 'user', creator=lambda user_obj: UserTrail(user=user_obj))
 
     # Serialization rules
-    serialize_rules = ('-user_trails',)
+    serialize_rules = ('-user_trails', '-reviews',)
 
     # For debugging purposes
     def __repr__(self):
