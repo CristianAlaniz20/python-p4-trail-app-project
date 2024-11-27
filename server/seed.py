@@ -65,7 +65,7 @@ if __name__ == '__main__':
             trail = Trail(
                 name=name,
                 address=fake.address(),
-                length=uniform(0.5, 10),
+                length=round(uniform(0.5, 10), 1),
                 description=fake.paragraph(nb_sentences=1),
                 image_url=fake.url()
             )
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
         for i in range(50):
             review = Review(
-                rating=uniform(0, 5),
+                rating=randint(0, 5),
                 text=fake.paragraph(nb_sentences=3),
                 user = rc(users),
                 trail = rc(trails)
