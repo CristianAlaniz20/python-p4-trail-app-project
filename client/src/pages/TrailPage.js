@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Review from "../components/Review"
 import Trail from "../components/Trail"
 
@@ -7,6 +8,7 @@ function TrailPage() {
     const [reviews, setReviews] = useState([])
     const [trail, setTrail] = useState({})
     const { trail_id } = useParams()
+    const history = useHistory()
 
     useEffect(() => {
         // GET request for reviews with a trail_id equal to trail_id
@@ -38,6 +40,11 @@ function TrailPage() {
         .catch(error => console.error(error))
     }, [])
 
+    // Re routes to Review Page
+    function handleCreateReviewButtonClick() {
+      history.push(`reviews/${trail_id}`)
+    }
+
     return (
         <>
             <Trail 
@@ -47,6 +54,12 @@ function TrailPage() {
                 description={trail.description}
                 profileImage={trail.profileImage}
             />
+            <br />
+
+            <button onClick={handleCreateReviewButtonClick}>Create Review</button>
+            <br />
+
+            <h3>All Reviews:</h3>
             {/* Iterate through reviews list and create a Review JSX for each */}
             {reviews.length > 0 ? (
                 reviews.map(review => {
