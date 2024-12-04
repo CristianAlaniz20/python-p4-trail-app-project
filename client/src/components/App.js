@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LogIn from "../pages/LogIn";
+import NavBar from "./NavBar";
+import Header from "./Header";
 import Home from "../pages/Home";
 import TrailPage from "../pages/TrailPage"
 import ReviewForm from "./ReviewForm";
@@ -27,6 +29,8 @@ function App() {
   return (
     <Router>
       <div>
+        <Header />
+        <NavBar />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />
