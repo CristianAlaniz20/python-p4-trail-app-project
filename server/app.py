@@ -185,6 +185,33 @@ class ReviewsForTrail(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
+class TrailsbyUserId(Resource):
+    def get(self):
+        try:
+            user_id = session['user_id']
+            if not user_id:
+                return make_response(jsonify({"error" : "No user in session."}), 422)
+            
+            saved_trails = (
+                db.session.query(Trail)
+                .join(UserTrail)
+                .filter(UserTrail.user_id == user_id, UserTrail.is_saved == True)
+                .all()
+            )
+            if not saved_trails:
+                return make_response(jsonify({"error" : "No saved trails found."}), 200)
+
+            serialized_saved_trails = [saved_trail.to_dict() for saved_trail in saved_trails]
+
+            return make_response(serialized_saved_trails, 200)
+
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
+
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -192,6 +219,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
 api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
+api.add_resource(TrailsbyUserId, '/user_saved_trails', endpoint='user_saved_trails')
 
 
 
