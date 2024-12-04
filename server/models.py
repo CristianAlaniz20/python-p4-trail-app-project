@@ -88,6 +88,7 @@ class UserTrail(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     trail_id = db.Column(db.Integer, db.ForeignKey('trails.id'))
+    is_saved = db.Column(db.Boolean, default=True, nullable=False)
     is_hiked = db.Column(db.Boolean, default=False, nullable=False)
 
     # Create model relationships
