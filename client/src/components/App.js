@@ -36,7 +36,9 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />
           <Route path="/reviews/:trail_id" component={ReviewForm} />
-          <Route path="/user" component={UserPage} />
+          <Route path="/user" >
+            <UserPage user={user} />
+          </Route>
         </Switch>
       </div>
     </Router>

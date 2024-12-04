@@ -1,8 +1,12 @@
 import React from "react";
 
-function UserPage() {
+function UserPage({ user }) {
     return (
-        <h1>User Page</h1>
+        <div>
+            <h1 id="user-username" >Username: {user.username}</h1>
+            <img id="user-profile-pic" src={user.profile_image_url} alt={`${user.username} trail-pic`} />
+            <p id="user-bio" >Bio: {user.bio}</p>
+        </div>
     )
 }
 

@@ -15,8 +15,12 @@ function NavBar({ setUser }) {
 
     return (
         <nav>
-            <button as={Link} to='/' >Home</button>
-            <button as={Link} to='/user' >My Account</button>
+            <Link to="/">
+                <button>Home</button>
+            </Link>
+            <Link to='/user' >
+                <button>My Account</button>
+            </Link>
             <button onClick={handleLogoutClick} >Logout</button>
         </nav>
     )
