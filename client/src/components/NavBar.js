@@ -16,7 +16,7 @@ function NavBar({ setUser }) {
     return (
         <nav>
             <button as={Link} to='/' >Home</button>
-            <button>My Account</button>
+            <button as={Link} to='/user' >My Account</button>
             <button onClick={handleLogoutClick} >Logout</button>
         </nav>
     )

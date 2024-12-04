@@ -6,6 +6,7 @@ import Header from "./Header";
 import Home from "../pages/Home";
 import TrailPage from "../pages/TrailPage"
 import ReviewForm from "./ReviewForm";
+import UserPage from "../pages/UserPage";
 
 function App() {
   const [user, setUser] = useState(null)
@@ -35,6 +36,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />
           <Route path="/reviews/:trail_id" component={ReviewForm} />
+          <Route path="/user" component={UserPage} />
         </Switch>
       </div>
     </Router>
