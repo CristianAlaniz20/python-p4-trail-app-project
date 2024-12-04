@@ -1,47 +1,11 @@
 import React, { useState } from "react";
-import { useFormik } from "formik";
 import Trail from "./Trail";
 
-function AllTrails() {
-    const [trails, setTrails] = useState([])
-
-    const formik = useFormik({
-      initialValues : {
-          city: ""
-      },
-      onSubmit: (values) => {
-          // POST request to get back trails with an adress of city
-          fetch("trails_index", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values, null, 2),
-          })
-          .then(res => {
-            if (res.status === 201) {
-              res.json()
-              .then(resTrails => {
-                setTrails(resTrails)
-              })
-            }
-          })
-          .catch(error => console.error(error))
-        },
-    })
+function AllTrails({ trails }) {
+    
 
     return (
         <div>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor="city" >Enter City Here: </label>
-                <input 
-                  id="city"
-                  name="city"
-                  onChange={formik.handleChange}
-                  value={formik.values.city}
-                />
-                <button type="submit">Search</button>
-            </form>
             {/* Iterate through trails list and create a Trail JSX for each */}
             {trails.length > 0 ? (
               trails.map(trail => {
@@ -58,7 +22,9 @@ function AllTrails() {
                 )
             })
             ) : (
-              <h4>Trails awaits you...</h4>
+              <h4>
+                Sorry, there are no trails for the city you entered. Check spelling!
+              </h4>
             )}
         </div>
     )
