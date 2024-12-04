@@ -1,10 +1,12 @@
-import React from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import React, { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useFormik } from "formik";
 import Header from "./Header";
 
 function ReviewForm() {
     const { trail_id } = useParams()
+    const [isSuccessful, setIsSuccessful] = useState(false)
+    const history = useHistory()
 
     const formik = useFormik({
         initialValues: {
@@ -13,6 +15,7 @@ function ReviewForm() {
         },
         onSubmit: (values) => {
             console.log(values)
+            // POST request to create new review
             fetch(`/reviews/${trail_id}`, {
                 method: "POST",
                 headers: {
@@ -23,12 +26,20 @@ function ReviewForm() {
             .then((res) => {
                 if (res.status === 201) {
                   console.log("Review Successfully created!")
+                  setIsSuccessful(true)
                 }
             })
             .catch(error => console.error(error))
             },
     })
 
+    // If new review is successfully created, re-route to trail with trail_id
+    useEffect(() => {
+        if (isSuccessful) {
+            history.push(`/trails/${trail_id}`)
+        }
+    }, [isSuccessful])
+    
     return (
         <>
             <Header />
