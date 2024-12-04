@@ -30,7 +30,7 @@ function App() {
     <Router>
       <div>
         <Header />
-        <NavBar />
+        <NavBar setUser={setUser} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />

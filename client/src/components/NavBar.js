@@ -1,12 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
-function NavBar() {
+function NavBar({ setUser }) {
+    function handleLogoutClick() {
+        fetch("/logout", { method: "DELETE" })
+        .then(res => {
+            if (res.status === 204) {
+                console.log("Successfully logged out.")
+                setUser(null)
+            }
+        })
+        .catch(error => console.error(error))
+    }
+
     return (
         <nav>
-            <button>Home</button>
+            <button as={Link} to='/' >Home</button>
             <button>My Account</button>
-            <button>Logout</button>
+            <button onClick={handleLogoutClick} >Logout</button>
         </nav>
     )
 }
