@@ -169,21 +169,21 @@ class ReviewsForTrail(Resource):
             new_review.user_id = user_id
 
             db.session.add(new_review)
-
+            db.session.flush()
+            print("new review added to session")
             new_review._username = new_review.user.username
-
+           
             db.session.commit()
-            print(new_review)
+            print(f"new review: {new_review}")
+            print(f"new review user: {new_review.user}")
+            print(f"new review user username: {new_review.user.username}")
 
             return make_response(new_review.to_dict(), 201)
-        
+         
         except Exception as e:
             db.session.rollback()
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
-            
-
-
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')

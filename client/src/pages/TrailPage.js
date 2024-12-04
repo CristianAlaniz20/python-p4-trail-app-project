@@ -42,7 +42,7 @@ function TrailPage() {
 
     // Re routes to Review Page
     function handleCreateReviewButtonClick() {
-      history.push(`reviews/${trail_id}`)
+      history.push(`/reviews/${trail_id}`)
     }
 
     return (

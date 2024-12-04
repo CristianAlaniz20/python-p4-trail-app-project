@@ -13,7 +13,7 @@ function ReviewForm() {
         },
         onSubmit: (values) => {
             console.log(values)
-            fetch(`reviews/${trail_id}`, {
+            fetch(`/reviews/${trail_id}`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
