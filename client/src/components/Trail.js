@@ -30,14 +30,16 @@ function Trail({ id, name, address, length, description, profileImage }) {
     }
 
     return (
-        <div onClick={handleTrailDivClick} >
-            <img className="trail-pic" src={profileImage} alt={`${name} trail-pic`} />
-            <h4 className="trail-name" >{name}</h4>
-            <address className="trail-adress">{address}</address>
-            <p className="trail-length" >{length} miles</p>
-            <p className="trail-description" >{description}</p>
+        <>
+            <div onClick={handleTrailDivClick} >
+                <img className="trail-pic" src={profileImage} alt={`${name} trail-pic`} />
+                <h4 className="trail-name" >{name}</h4>
+                <address className="trail-adress">{address}</address>
+                <p className="trail-length" >{length} miles</p>
+                <p className="trail-description" >{description}</p>
+            </div>
             <button onClick={handleSaveTrailClick} >Save Trail</button>
-        </div>
+        </>
     )
 }
 
