@@ -23,7 +23,7 @@ function TrailPage() {
             }
           })
         .catch(error => console.error(error))
-    }, [])
+    }, [trail_id])
 
     useEffect(() => {
         // GET request for a trail with an id of trail_id
@@ -38,7 +38,7 @@ function TrailPage() {
             }
           })
         .catch(error => console.error(error))
-    }, [])
+    }, [trail_id])
 
     // Re routes to Review Page
     function handleCreateReviewButtonClick() {
@@ -47,7 +47,8 @@ function TrailPage() {
 
     return (
         <>
-            <Trail 
+            <Trail
+                id={trail.id}
                 name={trail.name} 
                 address={trail.address} 
                 length={trail.length}

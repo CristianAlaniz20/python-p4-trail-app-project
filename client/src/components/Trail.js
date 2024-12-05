@@ -1,11 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-function Trail({ id=null, name, address, length, description, profileImage }) {
+function Trail({ id, name, address, length, description, profileImage }) {
     const history = useHistory()
 
     function handleClick() {
-        history.push(`trails/${id}`)
+        history.push(`/trails/${id}`)
     }
 
     return (
