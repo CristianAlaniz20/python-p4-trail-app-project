@@ -79,7 +79,11 @@ class CheckSession(Resource):
         #check if user_id has any value
         if user_id:
             user = User.query.filter(User.id == user_id).first()
-            return make_response(user.to_dict(), 200)
+            if user:
+                return make_response(user.to_dict(), 200)
+            else:
+                session['user_id'] = None
+                return make_response(jsonify({"error": "User not found."}), 404)
         else:
             return make_response(jsonify({"error" : "You are not logged in."}), 401)
 
