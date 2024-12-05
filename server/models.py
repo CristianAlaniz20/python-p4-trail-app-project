@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import UniqueConstraint
 
 from config import db, bcrypt
 
@@ -95,6 +96,9 @@ class UserTrail(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="user_trails")
 
     trail = db.relationship("Trail", back_populates="user_trails")
+
+    # Constraint to ensure no duplicate instances of user_id and trail_id pairs
+    __table_args__ = (UniqueConstraint('user_id', 'trail_id', name='no_duplicate_user_trail'),)
 
     # For debugging purposes
     def __repr__(self):
