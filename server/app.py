@@ -219,11 +219,13 @@ class SavedTrailsbyUserId(Resource):
             # Get and Check trail_id from the request
             request_trail_id = request.json.get("id")
             if not request_trail_id:
+                print("Inside no request trail id")
                 return make_response(jsonify({"error" : "Could not access request data"}), 422)
 
             # Get and Check user_id from the session
             session_user_id = session['user_id']
             if not session_user_id:
+                print("Inside no session user id")
                 return make_response(jsonify({"error" : "No user in session."}), 422)
 
             # Query UserTrail table to see if instance already exists
@@ -231,6 +233,7 @@ class SavedTrailsbyUserId(Resource):
 
             # Create UserTrail instance 
             if not user_trail:
+                print("Inside no user trail in db")
                 newUserTrail = UserTrail(
                     user_id=session_user_id,
                     trail_id=request_trail_id
@@ -239,6 +242,7 @@ class SavedTrailsbyUserId(Resource):
 
                 # Check if UserTrail instance was created
                 if not newUserTrail:
+                    print("Inside no UserTrail instance created")
                     return make_response(jsonify({"error" : "Could not create UserTrail instance"}), 422)
             
                 db.session.add(newUserTrail)

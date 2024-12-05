@@ -9,12 +9,13 @@ function Trail({ id, name, address, length, description, profileImage }) {
     }
 
     function handleSaveTrailClick() {
+        const trailIdObject = { id: id }
         fetch("/saved_trails", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(id, null, 2),
+            body: JSON.stringify(trailIdObject, null, 2),
         })
         .then(res => {
             if (res.status === 200 || res.status === 201) {
