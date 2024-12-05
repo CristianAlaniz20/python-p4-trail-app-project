@@ -12,7 +12,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
         history.push(`/trails/${id}`)
     }
 
-    // Handle saving Trail 
+    // Handle Saving Trail 
     function handleSaveTrailClick() {
         const trailIdObject = { id: id }
         fetch("/saved_trails", {
@@ -34,6 +34,28 @@ function Trail({ id, name, address, length, description, profileImage }) {
         .catch(error => console.error(error))
     }
 
+    // Handle setting trail hiked value to True
+    function handleHikedTrailClick() {
+        const trailIdObject = { id: id }
+        fetch("/kicked_trails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(trailIdObject, null, 2),
+        })
+        .then(res => {
+            if (res.status === 200 || res.status === 201) {
+                res.json()
+                .then(data => {
+                    console.log(data)
+                    console.log("Trail sucessfully set to Hiked!")
+                })
+            }
+        })
+        .catch(error => console.error(error))
+    }
+
     return (
         <>
             <div>
@@ -46,6 +68,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
             {/* condtional JSX rendering based on current path */}
             {trail_id ? null : <button onClick={handleViewTrailPageClick} >View Trail Page</button>}
             { location.pathname === "/user" ? null : <button onClick={handleSaveTrailClick} >Save Trail</button>}
+            { location.pathname === "/user" ? null : <button onClick={handleHikedTrailClick} >Mark as Hiked</button>}
         </>
     )
 }

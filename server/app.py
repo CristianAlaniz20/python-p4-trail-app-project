@@ -354,7 +354,7 @@ api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
 api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
 api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
-api.add_resource(HikedTrailsbyUserId, 'hiked_trails', endpoint='hiked_trails')
+api.add_resource(HikedTrailsbyUserId, '/hiked_trails', endpoint='hiked_trails')
 
 
 
