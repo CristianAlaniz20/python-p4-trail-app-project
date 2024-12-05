@@ -37,7 +37,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
     // Handle setting trail hiked value to True
     function handleHikedTrailClick() {
         const trailIdObject = { id: id }
-        fetch("/kicked_trails", {
+        fetch("/hiked_trails", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
