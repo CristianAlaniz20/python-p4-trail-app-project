@@ -1,14 +1,18 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function Trail({ id, name, address, length, description, profileImage }) {
     const history = useHistory()
+    // for conditional JSX rendering
     const location = useLocation()
+    const { trail_id } = useParams()
 
+    // Re route to Trail Page
     function handleViewTrailPageClick() {
         history.push(`/trails/${id}`)
     }
 
+    // Handle saving Trail 
     function handleSaveTrailClick() {
         const trailIdObject = { id: id }
         fetch("/saved_trails", {
@@ -39,10 +43,9 @@ function Trail({ id, name, address, length, description, profileImage }) {
                 <p className="trail-length" >{length} miles</p>
                 <p className="trail-description" >{description}</p>
             </div>
-            <button onClick={handleViewTrailPageClick} >View Trail Page</button>
-            { location.pathname === "/user" ? null : (
-                <button onClick={handleSaveTrailClick} >Save Trail</button>
-            )}
+            {/* condtional JSX rendering based on current path */}
+            {trail_id ? null : <button onClick={handleViewTrailPageClick} >View Trail Page</button>}
+            { location.pathname === "/user" ? null : <button onClick={handleSaveTrailClick} >Save Trail</button>}
         </>
     )
 }
