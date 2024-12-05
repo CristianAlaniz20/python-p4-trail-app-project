@@ -185,7 +185,7 @@ class ReviewsForTrail(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
-class TrailsbyUserId(Resource):
+class SavedTrailsbyUserId(Resource):
     def get(self):
         try:
             user_id = session['user_id']
@@ -219,7 +219,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
 api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
-api.add_resource(TrailsbyUserId, '/user_saved_trails', endpoint='user_saved_trails')
+api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
 
 
 

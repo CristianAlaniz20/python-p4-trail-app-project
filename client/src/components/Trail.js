@@ -9,7 +9,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
     }
 
     function handleSaveTrailClick() {
-        fetch("/hiked_trails", {
+        fetch("/saved_trails", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

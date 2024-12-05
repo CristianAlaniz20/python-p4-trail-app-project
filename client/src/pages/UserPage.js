@@ -5,7 +5,7 @@ function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
 
     useEffect(() => {
-        fetch("/user_saved_trails")
+        fetch("/saved_trails")
         .then(res => {
             if (res.status === 200) {
                 res.json()
