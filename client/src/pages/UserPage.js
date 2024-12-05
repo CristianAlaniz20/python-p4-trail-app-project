@@ -3,7 +3,9 @@ import AllTrails from "../components/AllTrails";
 
 function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
+    const [hikedTrails, setHikedTrails] = useState([])
 
+    // Fetch saved trails for User
     useEffect(() => {
         fetch("/saved_trails")
         .then(res => {
@@ -12,6 +14,21 @@ function UserPage({ user }) {
                 .then(resSavedTrails => {
                     console.log(`resSavedTrails: ${resSavedTrails}`)
                     setSavedTrails(resSavedTrails)
+                })
+            }
+        })
+        .catch(error => console.error(error))
+    }, [])
+
+    // fetch hiked trails for User
+    useEffect(() => {
+        fetch("/hiked_trails")
+        .then(res => {
+            if (res.status === 200) {
+                res.json()
+                .then(resHikedTrails => {
+                    console.log(`resHikedTrails: ${resHikedTrails}`)
+                    setHikedTrails(resHikedTrails)
                 })
             }
         })
@@ -27,6 +44,10 @@ function UserPage({ user }) {
 
             <h2>List of Saved Trails: </h2>
             <AllTrails trails={savedTrails} />
+            <br />
+
+            <h2>List of Hiked Trails: </h2>
+            <AllTrails trails={hikedTrails} />            
         </div>
     )
 }
