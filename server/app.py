@@ -188,10 +188,12 @@ class ReviewsForTrail(Resource):
 class SavedTrailsbyUserId(Resource):
     def get(self):
         try:
+             # Get and Check user_id from the session
             user_id = session['user_id']
             if not user_id:
                 return make_response(jsonify({"error" : "No user in session."}), 422)
             
+            # Query database to get all saved trails for User
             saved_trails = (
                 db.session.query(Trail)
                 .join(UserTrail)
@@ -201,16 +203,63 @@ class SavedTrailsbyUserId(Resource):
             if not saved_trails:
                 return make_response(jsonify({"error" : "No saved trails found."}), 200)
 
+            # Serialize all trails in saved_trails
             serialized_saved_trails = [saved_trail.to_dict() for saved_trail in saved_trails]
 
             return make_response(serialized_saved_trails, 200)
 
+        # Handle Exception
         except Exception as e:
             db.session.rollback()
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
+    def post(self):
+        try:
+            # Get and Check trail_id from the request
+            request_trail_id = request.json.get("id")
+            if not request_trail_id:
+                return make_response(jsonify({"error" : "Could not access request data"}), 422)
 
+            # Get and Check user_id from the session
+            session_user_id = session['user_id']
+            if not session_user_id:
+                return make_response(jsonify({"error" : "No user in session."}), 422)
+
+            # Query UserTrail table to see if instance already exists
+            user_trail = UserTrail.query.filter(UserTrail.user_id == session_user_id, UserTrail.trail_id == request_trail_id).first()
+
+            # Create UserTrail instance 
+            if not user_trail:
+                newUserTrail = UserTrail(
+                    user_id=session_user_id,
+                    trail_id=request_trail_id
+                )
+                newUserTrail.is_saved = True
+
+                # Check if UserTrail instance was created
+                if not newUserTrail:
+                    return make_response(jsonify({"error" : "Could not create UserTrail instance"}), 422)
+            
+                db.session.add(newUserTrail)
+                db.session.commit()
+
+                return make_response({}, 201)
+
+            # Set the existinng instance is_saved value to True
+            else:
+                user_trail.is_saved = True
+
+                return make_response({}, 201)
+
+        # Handle Exception
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)        
+
+        
+        
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
