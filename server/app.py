@@ -264,7 +264,84 @@ class SavedTrailsbyUserId(Resource):
         except Exception as e:
             db.session.rollback()
             print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)        
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)  
+
+class HikedTrailsbyUserId(Resource):
+    def get(self):
+        try:
+             # Get and Check user_id from the session
+            user_id = session['user_id']
+            if not user_id:
+                return make_response(jsonify({"error" : "No user in session."}), 422)
+            
+            # Query database to get all saved trails for User
+            hiked_trails = (
+                db.session.query(Trail)
+                .join(UserTrail)
+                .filter(UserTrail.user_id == user_id, UserTrail.is_hiked == True)
+                .all()
+            )
+            if not hiked_trails:
+                return make_response(jsonify({"error" : "No saved trails found."}), 200)
+
+            # Serialize all trails in saved_trails
+            serialized_hiked_trails = [hiked_trail.to_dict() for hiked_trail in hiked_trails]
+
+            return make_response(serialized_hiked_trails, 200)
+
+        # Handle Exception
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+
+    def post(self):
+        try:
+            # Get and Check trail_id from the request
+            request_trail_id = request.json.get("id")
+            if not request_trail_id:
+                print("Inside no request trail id")
+                return make_response(jsonify({"error" : "Could not access request data"}), 422)
+
+            # Get and Check user_id from the session
+            session_user_id = session['user_id']
+            if not session_user_id:
+                print("Inside no session user id")
+                return make_response(jsonify({"error" : "No user in session."}), 422)
+
+            # Query UserTrail table to see if instance already exists
+            user_trail = UserTrail.query.filter(UserTrail.user_id == session_user_id, UserTrail.trail_id == request_trail_id).first()
+
+            # Create UserTrail instance 
+            if not user_trail:
+                print("Inside no user trail in db")
+                newUserTrail = UserTrail(
+                    user_id=session_user_id,
+                    trail_id=request_trail_id
+                )
+                newUserTrail.is_hiked = True
+
+                # Check if UserTrail instance was created
+                if not newUserTrail:
+                    print("Inside no UserTrail instance created")
+                    return make_response(jsonify({"error" : "Could not create UserTrail instance"}), 422)
+            
+                db.session.add(newUserTrail)
+                db.session.commit()
+
+                return make_response({}, 201)
+
+            # Set the existinng instance is_saved value to True
+            else:
+                user_trail.is_hiked = True
+
+                return make_response({}, 201)
+
+        # Handle Exception
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)       
 
         
         
@@ -277,6 +354,7 @@ api.add_resource(TrailsIndex, '/trails_index', endpoint='trails_index')
 api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
 api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
 api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
+api.add_resource(HikedTrailsbyUserId, 'hiked_trails', endpoint='hiked_trails')
 
 
 
