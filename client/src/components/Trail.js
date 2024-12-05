@@ -16,7 +16,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
     function handleSaveTrailClick() {
         const trailIdObject = { id: id }
         fetch("/saved_trails", {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },
@@ -38,7 +38,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
     function handleHikedTrailClick() {
         const trailIdObject = { id: id }
         fetch("/hiked_trails", {
-            method: "POST",
+            method: "PUT",
             headers: {
               "Content-Type": "application/json",
             },

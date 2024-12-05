@@ -218,7 +218,7 @@ class SavedTrailsbyUserId(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
-    def post(self):
+    def put(self):
         try:
             # Get and Check trail_id from the request
             request_trail_id = request.json.get("id")
@@ -258,6 +258,8 @@ class SavedTrailsbyUserId(Resource):
             else:
                 user_trail.is_saved = True
 
+                db.session.commit()
+
                 return make_response({}, 201)
 
         # Handle Exception
@@ -295,7 +297,7 @@ class HikedTrailsbyUserId(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
-    def post(self):
+    def put(self):
         try:
             # Get and Check trail_id from the request
             request_trail_id = request.json.get("id")
@@ -334,6 +336,8 @@ class HikedTrailsbyUserId(Resource):
             # Set the existinng instance is_saved value to True
             else:
                 user_trail.is_hiked = True
+                
+                db.session.commit()
 
                 return make_response({}, 201)
 
