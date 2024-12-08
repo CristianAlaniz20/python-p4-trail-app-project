@@ -347,9 +347,50 @@ class HikedTrailsbyUserId(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)       
 
-        
-        
+class ChangeUserRole(Resource):
+    def post(self):
+        inputed_admin_secret_key = request.json.get("adminSecretKey")
+        app_admin_secret_key = app.admin_secret_key
+        user_id = session["user_id"]
+        user = User.query.filter(User.id == user_id).first()
 
+        # Check if input_admin_secret_key has a value
+        if not inputed_admin_secret_key:
+            print("Inside no inputed admin secret key")
+            return make_response(jsonify({"error" : "No data was recieved."}), 422)
+
+        # Check if app_admin_secret_key has a value
+        if not app_admin_secret_key:
+            print("Inside no app admin secret key")
+            return make_response(jsonify({"error" : "No app admin key found."}), 422)
+
+        # Check if user_id has a value
+        if not user_id:
+            print("Inside no user id")
+            return make_response(jsonify({"error" : "No user id was found."}), 422)
+
+        # Check if user has a value
+        if not user:
+            print("inside no user")
+            return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+
+        # Check if inputed key is same as app key
+        if inputed_admin_secret_key == app_admin_secret_key:
+            # Assign user role to admin
+            user.role = "admin"
+
+            db.session.commit()
+
+            print("Inside input key is same as app key")
+            return make_response(jsonify({"user role" : user.role}), 201)
+
+        else:
+            print(f"inputed key: {inputed_admin_secret_key}")
+            print(f"app key: {app.admin_secret_key}")
+            print("Inputed secret key does not match app secret key")
+            return make_response(jsonify({"error" : "Invalid secret key"}), 422)
+
+        
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -359,7 +400,7 @@ api.add_resource(TrailById, '/trail/<int:trail_id>', endpoint='trail_by_id')
 api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
 api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
 api.add_resource(HikedTrailsbyUserId, '/hiked_trails', endpoint='hiked_trails')
-
+api.add_resource(ChangeUserRole, "/change_user_role", endpoint="change_user_role")
 
 
 if __name__ == '__main__':
