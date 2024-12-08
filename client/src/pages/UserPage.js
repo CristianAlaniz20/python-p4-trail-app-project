@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AllTrails from "../components/AllTrails";
-import ChangeRole from "../components/ChangeRole";
+import ChangeAccountRole from "../components/ChangeRole";
 
 function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
@@ -38,7 +38,7 @@ function UserPage({ user }) {
 
     // Handle change account role button click
     function handleChangeAccountRoleClick() {
-        return <ChangeRole />
+        return <ChangeAccountRole />
     }
 
     return (
