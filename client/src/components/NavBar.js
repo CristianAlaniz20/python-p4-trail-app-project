@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
-function NavBar({ setUser }) {
+function NavBar({ user, setUser }) {
     function handleLogoutClick() {
         fetch("/logout", { method: "DELETE" })
         .then(res => {
@@ -21,6 +21,11 @@ function NavBar({ setUser }) {
             <Link to='/user' >
                 <button>My Account</button>
             </Link>
+            {user.role === "admin" ? (
+                <Link to="/create_trail" >
+                    <button>Create Trail</button>
+                </Link>
+            ) : null}
             <button onClick={handleLogoutClick} >Logout</button>
         </nav>
     )
