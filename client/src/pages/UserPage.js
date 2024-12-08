@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AllTrails from "../components/AllTrails";
-import ChangeAccountRole from "../components/ChangeRole";
+import ChangeAccountRole from "../components/ChangeAccountRole";
 
 function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
     const [hikedTrails, setHikedTrails] = useState([])
+    const [showChangeAccRole, setShowChangeAccRole] = useState(false)
 
     // Fetch saved trails for User
     useEffect(() => {
@@ -38,7 +39,12 @@ function UserPage({ user }) {
 
     // Handle change account role button click
     function handleChangeAccountRoleClick() {
-        return <ChangeAccountRole />
+        console.log(showChangeAccRole)
+        setShowChangeAccRole(true)
+    }
+
+    if (showChangeAccRole) {
+        return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
     }
 
     return (
