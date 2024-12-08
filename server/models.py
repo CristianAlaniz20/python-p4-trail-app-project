@@ -78,7 +78,7 @@ class Trail(db.Model, SerializerMixin):
     # Checks that description is not longer than 100 characters
     @validates('description')
     def validates_instructions(self, key, value):
-        if len(value) > 100:
+        if len(value) > 200:
             raise ValueError("Description cannot be more than 100 characters long.")
         return value
 
