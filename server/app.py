@@ -390,6 +390,52 @@ class ChangeUserRole(Resource):
             print("Inputed secret key does not match app secret key")
             return make_response(jsonify({"error" : "Invalid secret key"}), 422)
 
+class CreateTrail(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            trail_name = data.get("trailName", None)
+            trail_address = data.get("trailAddress", None)
+            trail_length = float(data['trailLength'])
+            trail_description = data['trailDescription']
+            trail_image_url = data['trailImageUrl']
+
+            # Check if data has a value
+            if not data:
+                print("Inside no data was sent")
+                return make_response(jsonify({"error" : "No data was recieved."}), 422)
+
+            # Check if nay of the trial attributes do not have a value
+            for attribute in [trail_name, trail_address, trail_length, trail_description, trail_image_url]:
+                if not attribute:
+                    print(f"attribute {attribute} has no value")
+                    return make_response(jsonify({"error" : "Some attribute had no value"}), 422)
+
+            new_trail = Trail(
+                name=trail_name,
+                address=trail_address,
+                length=trail_length,
+                description=trail_description,
+                image_url=trail_image_url
+            )
+
+            # Check if new trail has any value
+            if not new_trail:
+                print("Inside new trail has no value")
+                return make_response(jsonify({"error" : "New trail has no value."}), 422)
+
+            # add new_review to session
+            db.session.add(new_trail)
+            db.session.commit()
+
+            return make_response(new_trail.to_dict(), 201)
+
+        # Handle Exception
+        except Exception as e:
+            db.session.rollback()
+            print("inside xception")
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)  
+
         
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
@@ -401,6 +447,7 @@ api.add_resource(ReviewsForTrail, '/reviews/<int:trail_id>', endpoint='reviews')
 api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
 api.add_resource(HikedTrailsbyUserId, '/hiked_trails', endpoint='hiked_trails')
 api.add_resource(ChangeUserRole, "/change_user_role", endpoint="change_user_role")
+api.add_resource(CreateTrail, "/create_trail", endpoint="create_trail")
 
 
 if __name__ == '__main__':
