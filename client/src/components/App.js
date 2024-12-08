@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import TrailPage from "../pages/TrailPage"
 import ReviewForm from "./ReviewForm";
 import UserPage from "../pages/UserPage";
+import CreateTrailPage from "../pages/CreateTrailPage";
 
 function App() {
   const [user, setUser] = useState(null)
@@ -31,7 +32,7 @@ function App() {
     <Router>
       <div>
         <Header />
-        <NavBar setUser={setUser} />
+        <NavBar user={user} setUser={setUser} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />
@@ -39,6 +40,9 @@ function App() {
           <Route path="/user" >
             <UserPage user={user} />
           </Route>
+          {user.role === "admin" ? (
+            <Route path="/create_trail" component={CreateTrailPage} />
+          ) : null}
         </Switch>
       </div>
     </Router>
