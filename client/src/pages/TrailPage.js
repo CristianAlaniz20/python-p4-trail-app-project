@@ -53,7 +53,7 @@ function TrailPage() {
                 address={trail.address} 
                 length={trail.length}
                 description={trail.description}
-                profileImage={trail.profileImage}
+                profileImage={trail.image_url}
             />
             <br />
 

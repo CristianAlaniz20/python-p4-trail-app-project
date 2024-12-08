@@ -31,7 +31,7 @@ function CreateTrailPage() {
                 body: JSON.stringify(values, null, 2),
             })
             .then(res => {
-                if (res.status == 201) {
+                if (res.status === 201) {
                     console.log("Trail succesfully created")
                 }
             })
