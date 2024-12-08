@@ -16,6 +16,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     profile_image_url = db.Column(db.String)
     bio = db.Column(db.String)
+    role = db.Column(db.String, default="user", nullable=False)
 
     # Create model relationships
     user_trails = db.relationship("UserTrail", back_populates="user", cascade="all, delete-orphan")
