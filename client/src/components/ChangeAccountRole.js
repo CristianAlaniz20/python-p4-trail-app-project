@@ -2,7 +2,8 @@ import React from "react";
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-function ChangeAccountRole() {
+function ChangeAccountRole({ setShowChangeAccRole }) {
+    // Validation for input
     const formSchema = yup.object().shape({
         adminSecretKey: yup.string().required("Must enter admind secret key.")
     })
@@ -13,7 +14,9 @@ function ChangeAccountRole() {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            fetch("/user", {
+            console.log(values)
+            // POST request to change user role 
+            fetch("/change_user_role", {
                 method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -26,8 +29,14 @@ function ChangeAccountRole() {
                 }
             })
             .catch(error => console.error(error))
-        }
+        },
     })
+
+    // handle Back to User Information button click
+    function handleBackToUserInfoClick() {
+        console.log("Back  to User Info button pressed!")
+        setShowChangeAccRole(false)
+    }
 
     return (
         <div>
@@ -37,12 +46,17 @@ function ChangeAccountRole() {
                 <input 
                     id="adminSecretKey"
                     name="adminSecretKey"
-                    
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.adminSecretKey}
                 />
                 <br />
         
                 <button type="submit" >Submit Key</button>
             </form>
+            <br />
+
+            <button onClick={handleBackToUserInfoClick} >Back to User Information</button>
         </div>
     )
 }
