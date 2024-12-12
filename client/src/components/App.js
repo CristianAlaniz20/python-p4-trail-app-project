@@ -8,6 +8,7 @@ import TrailPage from "../pages/TrailPage"
 import ReviewForm from "./ReviewForm";
 import UserPage from "../pages/UserPage";
 import CreateTrailPage from "../pages/CreateTrailPage";
+import UpdateUserPage from "../pages/UpdateUserPage";
 
 function App() {
   const [user, setUser] = useState(null)
@@ -43,6 +44,7 @@ function App() {
           {user.role === "admin" ? (
             <Route path="/create_trail" component={CreateTrailPage} />
           ) : null}
+          < Route path="edit_user" component={UpdateUserPage} />
         </Switch>
       </div>
     </Router>
