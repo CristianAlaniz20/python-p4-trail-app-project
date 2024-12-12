@@ -436,7 +436,43 @@ class CreateTrail(Resource):
             print("inside xception")
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)  
 
-        
+
+class CheckPassword(Resource):
+    def post(self):
+        user_id = session['user_id']
+        password = request.json.get('confirmationPassword')
+        user = User.query.filter(User.id == user_id).first()
+
+        # Check if password request data has a value
+        if not password:
+            print("inside no password")
+            return make_response(jsonify({"error" : "No data received"}), 422)
+
+        # Check if user_id has a value
+        if not user_id:
+            print("Inside no user id")
+            return make_response(jsonify({"error" : "No user id was found."}), 422)
+
+        # Check if user has a value
+        if not user:
+            print("inside no user")
+            return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+
+        if user.authenticate(password):
+            print("inside successful code")
+            return make_response(jsonify({"message" : "password verified successfully!"}), 200)
+
+        else:
+            return make_response(jsonify({"error" : "inputed password does not match password in our system!"}), 422)
+
+
+class EditUser(Resource):
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -448,6 +484,7 @@ api.add_resource(SavedTrailsbyUserId, '/saved_trails', endpoint='saved_trails')
 api.add_resource(HikedTrailsbyUserId, '/hiked_trails', endpoint='hiked_trails')
 api.add_resource(ChangeUserRole, "/change_user_role", endpoint="change_user_role")
 api.add_resource(CreateTrail, "/create_trail", endpoint="create_trail")
+api.add_resource(CheckPassword, "/check_password", endpoint="check_password")
 
 
 if __name__ == '__main__':
