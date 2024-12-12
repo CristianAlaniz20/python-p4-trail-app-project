@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function PasswordConfirmation({ user, setPasswordConfirmed }) {
-    // create a error message state
-    const [errorMessage, setErrorMessage] = useState(null)
-    
+function PasswordConfirmation({ setPasswordConfirmed }) {
     // formik validation
     const formSchema = yup.object().shape({
         confirmationPassword: yup.string()
@@ -18,12 +15,20 @@ function PasswordConfirmation({ user, setPasswordConfirmed }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            if (user.authenticate(values.confirmationPassword) === true) {
-                setPasswordConfirmed(true)
-            } 
-            else {
-                setErrorMessage("Invalid password please try again!")
-            }
+            // POST request to check password resource
+            fetch("/check_password", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(values, null, 2),
+            })
+            .then(res => {
+                if (res.status === 204) {
+                    setPasswordConfirmed(true)
+                }
+            })
+            .catch(error => console.error(error))
         }
     })
 
@@ -46,11 +51,6 @@ function PasswordConfirmation({ user, setPasswordConfirmed }) {
 
                 <button type="submit" >Check Password</button>
             </form>
-
-            {/* Print error message if the password is invalid */}
-            {errorMessage ? (
-                <p>{errorMessage}</p>
-            ) : null}
         </div>
     )
 }
