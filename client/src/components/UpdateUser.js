@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function UpdateUser({ user }) {
+function UpdateUser({ user, setSuccessfullyUpated }) {
     // verification for the form inputs
     const formSchema = yup.object().shape({
         newUsername: yup.string(),
@@ -33,6 +33,7 @@ function UpdateUser({ user }) {
             .then((res) => {
               if (res.status === 200) {
                 console.log("Sucessfully updated user!")
+                setSuccessfullyUpated(true)
               }
             })
             .catch(error => console.error(error))
