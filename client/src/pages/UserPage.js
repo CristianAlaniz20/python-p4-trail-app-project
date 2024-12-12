@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AllTrails from "../components/AllTrails";
 import ChangeAccountRole from "../components/ChangeAccountRole";
+import UpdateUserPage from "./UpdateUserPage";
 
 function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
     const [hikedTrails, setHikedTrails] = useState([])
     const [showChangeAccRole, setShowChangeAccRole] = useState(false)
+    const [updateUser, setUpdateUser] = useState(false)
 
     // Fetch saved trails for User
     useEffect(() => {
@@ -43,8 +45,19 @@ function UserPage({ user }) {
         setShowChangeAccRole(true)
     }
 
+    // handle update user button click
+    function handleUpdateUserClick() {
+        setUpdateUser(true)
+    }
+
+    // if showChangeAccRole is true return/redirect to ChangeAccountRole component
     if (showChangeAccRole) {
         return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
+    }
+
+    // if updateUser is true return/redirect to UpdateUserPage
+    if (updateUser) {
+        return <UpdateUserPage user={user} setUpdateUser={setUpdateUser} />
     }
 
     return (
@@ -52,10 +65,11 @@ function UserPage({ user }) {
             <h1 id="user-username" >Username: {user.username}</h1>
             <img id="user-profile-pic" src={user.profile_image_url} alt={`${user.username} trail-pic`} />
             <p id="user-bio" >Bio: {user.bio}</p>
+            <p>Role: {user.role}</p>
             <br />
 
-            <label htmlFor="change-role-button" >Role: {user.role}</label>
-            <button id="change-role-button" onClick={handleChangeAccountRoleClick} >Change Account Role</button>
+            <button onClick={handleChangeAccountRoleClick} >Change Account Role</button>
+            <button onClick={handleUpdateUserClick} >Update User</button>
 
             <h2>List of Saved Trails: </h2>
             <AllTrails trails={savedTrails} />
