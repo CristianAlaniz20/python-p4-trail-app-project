@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function PasswordConfirmation({ setPasswordConfirmed }) {
+function PasswordConfirmation({ setPasswordConfirmed, setUserPassword }) {
     // formik validation
     const formSchema = yup.object().shape({
         confirmationPassword: yup.string()
@@ -27,6 +27,7 @@ function PasswordConfirmation({ setPasswordConfirmed }) {
             .then(res => {
                 if (res.status === 200) {
                     setPasswordConfirmed(true)
+                    setUserPassword(formik.values.confirmationPassword)
                 }
             })
             .catch(error => console.error(error))
@@ -45,6 +46,7 @@ function PasswordConfirmation({ setPasswordConfirmed }) {
                 <input 
                     id="confirmationPassword"
                     name="confirmationPassword"
+                    type="password"
                     onChange={formik.handleChange}
                     value={formik.values.confirmationPassword}
                 />
