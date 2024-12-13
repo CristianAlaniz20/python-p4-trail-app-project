@@ -2,7 +2,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function UpdateUser({ user, setUpdateUser }) {
+function UpdateUser({ user, setUpdateUser, userPassword }) {
     // verification for the form inputs
     const formSchema = yup.object().shape({
         newUsername: yup.string(),
@@ -15,7 +15,7 @@ function UpdateUser({ user, setUpdateUser }) {
     const formik = useFormik({
         initialValues : {
             newUsername: user.username || "",
-            newPassword: "",
+            newPassword: userPassword || "",
             newProfileImage: user.profile_image_url || "",
             newBio: user.bio || ""
         },
