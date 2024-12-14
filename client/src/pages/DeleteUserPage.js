@@ -10,7 +10,7 @@ function DeleteUserPage({ setDeleteAccount, setUser }) {
               },
         })
         .then(res => {
-            if (res.status == 204) {
+            if (res.status === 204) {
                 console.log("Successfully deleted account!")
                 setUser(null)
             }
