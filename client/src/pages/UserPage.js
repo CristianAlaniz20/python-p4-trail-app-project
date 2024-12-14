@@ -4,7 +4,7 @@ import ChangeAccountRole from "../components/ChangeAccountRole";
 import UpdateUserPage from "./UpdateUserPage";
 import DeleteUserPage from "./DeleteUserPage";
 
-function UserPage({ user }) {
+function UserPage({ user, setUser }) {
     const [savedTrails, setSavedTrails] = useState([])
     const [hikedTrails, setHikedTrails] = useState([])
     const [showChangeAccRole, setShowChangeAccRole] = useState(false)
@@ -66,7 +66,7 @@ function UserPage({ user }) {
     }
 
     // if deleteAccout is true return/redirect to UpdateUserPage
-    if (deleteAccount) return <DeleteUserPage user={user} setDeleteAccount={setDeleteAccount} />
+    if (deleteAccount) return <DeleteUserPage setDeleteAccount={setDeleteAccount} setUser={setUser} />
 
     return (
         <div>
