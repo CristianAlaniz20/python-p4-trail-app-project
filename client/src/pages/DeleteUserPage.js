@@ -3,7 +3,7 @@ import React from "react";
 function DeleteUserPage({ setDeleteAccount }) {
     // handle YES button click
     function handleYesClick() {
-        fetch("/delete_user", {
+        fetch("/edit_user", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
