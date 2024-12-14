@@ -17,10 +17,7 @@ function UserPage({ user, setUser }) {
         .then(res => {
             if (res.status === 200) {
                 res.json()
-                .then(resSavedTrails => {
-                    console.log(`resSavedTrails: ${resSavedTrails}`)
-                    setSavedTrails(resSavedTrails)
-                })
+                .then(resSavedTrails => setSavedTrails(resSavedTrails))
             }
         })
         .catch(error => console.error(error))
@@ -32,10 +29,7 @@ function UserPage({ user, setUser }) {
         .then(res => {
             if (res.status === 200) {
                 res.json()
-                .then(resHikedTrails => {
-                    console.log(`resHikedTrails: ${resHikedTrails}`)
-                    setHikedTrails(resHikedTrails)
-                })
+                .then(resHikedTrails => setHikedTrails(resHikedTrails))
             }
         })
         .catch(error => console.error(error))
