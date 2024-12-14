@@ -15,7 +15,6 @@ function PasswordConfirmation({ setPasswordConfirmed, setUserPassword }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            console.log(values)
             // POST request to check password resource
             fetch("/check_password", {
                 method: "POST",
