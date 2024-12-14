@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Trail from "./Trail";
 
 function AllTrails({ trails }) {
-    
-
     return (
         <div>
             {/* Iterate through trails list and create a Trail JSX for each */}
@@ -23,7 +21,7 @@ function AllTrails({ trails }) {
             })
             ) : (
               <h4>
-                Sorry, there are no trails for the city you entered. Check spelling!
+                Sorry, no trails were found!
               </h4>
             )}
         </div>
