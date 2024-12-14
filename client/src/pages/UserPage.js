@@ -42,28 +42,19 @@ function UserPage({ user, setUser }) {
     }, [])
 
     // Handle change account role button click
-    function handleChangeAccountRoleClick() {
-        console.log(showChangeAccRole)
-        setShowChangeAccRole(true)
-    }
+    const handleChangeAccountRoleClick = () => setShowChangeAccRole(true)
 
     // handle update user button click
-    function handleUpdateUserClick() {
-        setUpdateUser(true)
-    }
+    const handleUpdateUserClick = () => setUpdateUser(true)
 
     // handle delete account click
     const handleDeleteAccountClick = () => setDeleteAccount(true)
 
     // if showChangeAccRole is true return/redirect to ChangeAccountRole component
-    if (showChangeAccRole) {
-        return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
-    }
+    if (showChangeAccRole) return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
 
     // if updateUser is true return/redirect to UpdateUserPage
-    if (updateUser) {
-        return <UpdateUserPage user={user} setUpdateUser={setUpdateUser} />
-    }
+    if (updateUser) return <UpdateUserPage user={user} setUpdateUser={setUpdateUser} />
 
     // if deleteAccout is true return/redirect to UpdateUserPage
     if (deleteAccount) return <DeleteUserPage setDeleteAccount={setDeleteAccount} setUser={setUser} />
