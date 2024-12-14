@@ -25,6 +25,7 @@ function App() {
     .catch(error => console.error(error))
   }, []);
 
+  // Check if user state has a value and return LogIn component if doesn't
   if (!user) {
     return <LogIn onLogin={setUser}/>
   }
@@ -32,6 +33,7 @@ function App() {
   return (
     <Router>
       <div>
+        {/* Routes for different pages of the Application */}
         <Header />
         <NavBar user={user} setUser={setUser} />
         <Switch>
@@ -39,12 +41,12 @@ function App() {
           <Route path="/trails/:trail_id" component={TrailPage} />
           <Route path="/reviews/:trail_id" component={ReviewForm} />
           <Route path="/user" >
-            <UserPage user={user} />
+            <UserPage user={user} setUser={setUser} />
           </Route>
           {user.role === "admin" ? (
             <Route path="/create_trail" component={CreateTrailPage} />
           ) : null}
-          < Route path="edit_user" component={UpdateUserPage} />
+          <Route path="/edit_user" component={UpdateUserPage} />
         </Switch>
       </div>
     </Router>
