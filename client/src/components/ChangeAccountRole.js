@@ -14,7 +14,6 @@ function ChangeAccountRole({ setShowChangeAccRole }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            console.log(values)
             // POST request to change user role 
             fetch("/change_user_role", {
                 method: "POST",
@@ -33,10 +32,7 @@ function ChangeAccountRole({ setShowChangeAccRole }) {
     })
 
     // handle Back to User Information button click
-    function handleBackToUserInfoClick() {
-        console.log("Back  to User Info button pressed!")
-        setShowChangeAccRole(false)
-    }
+    const handleBackToUserInfoClick = () => setShowChangeAccRole(false)
 
     return (
         <div>
