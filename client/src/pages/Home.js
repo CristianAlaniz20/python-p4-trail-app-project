@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
+import * as yup from "yup";
 import AllTrails from "../components/AllTrails";
 
 function Home() {
     const [trails, setTrails] = useState([])
     const [hasSearched, setHasSearched] = useState(false)
 
+    const formSchema = yup.object().shape({
+      city: yup.string().required("must enter a city!")
+    })
+
     const formik = useFormik({
       initialValues : {
           city: ""
       },
+      validationSchema: formSchema,
       onSubmit: (values) => {
           // POST request to get back trails with an adress of city
           fetch("trails_index", {
