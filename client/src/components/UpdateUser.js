@@ -21,8 +21,7 @@ function UpdateUser({ user, setUpdateUser, userPassword }) {
         },
         validationSchema: formSchema,
         onSubmit: (values) => {
-            // PUT request to update user information
-            console.log(values)
+            // PUT request to EditUser resource
             fetch("/edit_user", {
               method: "PUT",
               headers: {
@@ -31,10 +30,7 @@ function UpdateUser({ user, setUpdateUser, userPassword }) {
               body: JSON.stringify(values, null, 2),
             })
             .then((res) => {
-              if (res.status === 200) {
-                console.log("Sucessfully updated user!")
-                setUpdateUser(false)
-              }
+              if (res.status === 200) setUpdateUser(false)
             })
             .catch(error => console.error(error))
           },
