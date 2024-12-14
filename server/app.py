@@ -521,7 +521,33 @@ class EditUser(Resource):
             return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
     def delete(self):
-        pass
+        try:
+            user_id = session['user_id']
+            user = User.query.filter(User.id == user_id).first()
+            
+            # Check if user_id has a value
+            if not user_id:
+                print("Inside no user id")
+                return make_response(jsonify({"error" : "No user id was found."}), 422)
+
+            # Check if user has a value
+            if not user:
+                print("inside no user")
+                return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+
+            # Delete user from db
+            db.session.delete(user)
+            db.session.commit()
+
+            # Remove user_id from sessoin
+            session['user_id'] = None
+
+            return make_response({}, 204)
+
+        # Any other exception
+        except Exception as e:
+            db.session.rollback()
+            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
