@@ -1,6 +1,6 @@
 import React from "react";
 
-function DeleteUserPage({ setDeleteAccount }) {
+function DeleteUserPage({ setDeleteAccount, setUser }) {
     // handle YES button click
     function handleYesClick() {
         fetch("/edit_user", {
@@ -12,6 +12,7 @@ function DeleteUserPage({ setDeleteAccount }) {
         .then(res => {
             if (res.status == 204) {
                 console.log("Successfully deleted account!")
+                setUser(null)
             }
         })
         .catch(error => console.error(error))
