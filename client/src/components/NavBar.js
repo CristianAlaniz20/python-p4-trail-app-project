@@ -3,12 +3,10 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function NavBar({ user, setUser }) {
     function handleLogoutClick() {
+        // DELETE request to Logout Resource
         fetch("/logout", { method: "DELETE" })
         .then(res => {
-            if (res.status === 204) {
-                console.log("Successfully logged out.")
-                setUser(null)
-            }
+            if (res.status === 204) setUser(null)
         })
         .catch(error => console.error(error))
     }
