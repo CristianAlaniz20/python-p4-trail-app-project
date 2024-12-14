@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import AllTrails from "../components/AllTrails";
 import ChangeAccountRole from "../components/ChangeAccountRole";
 import UpdateUserPage from "./UpdateUserPage";
+import DeleteUserPage from "./DeleteUserPage";
 
 function UserPage({ user }) {
     const [savedTrails, setSavedTrails] = useState([])
     const [hikedTrails, setHikedTrails] = useState([])
     const [showChangeAccRole, setShowChangeAccRole] = useState(false)
     const [updateUser, setUpdateUser] = useState(false)
+    const [deleteAccount, setDeleteAccount] = useState(false)
 
     // Fetch saved trails for User
     useEffect(() => {
@@ -50,6 +52,9 @@ function UserPage({ user }) {
         setUpdateUser(true)
     }
 
+    // handle delete account click
+    const handleDeleteAccountClick = () => setDeleteAccount(true)
+
     // if showChangeAccRole is true return/redirect to ChangeAccountRole component
     if (showChangeAccRole) {
         return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
@@ -60,6 +65,9 @@ function UserPage({ user }) {
         return <UpdateUserPage user={user} setUpdateUser={setUpdateUser} />
     }
 
+    // if deleteAccout is true return/redirect to UpdateUserPage
+    if (deleteAccount) return <DeleteUserPage user={user} setDeleteAccount={setDeleteAccount} />
+
     return (
         <div>
             <h1 id="user-username" >Username: {user.username}</h1>
@@ -69,7 +77,8 @@ function UserPage({ user }) {
             <br />
 
             <button onClick={handleChangeAccountRoleClick} >Change Account Role</button>
-            <button onClick={handleUpdateUserClick} >Update User</button>
+            <button onClick={handleUpdateUserClick} >Update Account</button>
+            <button onClick={handleDeleteAccountClick} >Delete Account</button>
 
             <h2>List of Saved Trails: </h2>
             <AllTrails trails={savedTrails} />
