@@ -14,7 +14,6 @@ function ReviewForm() {
             text: ""
         },
         onSubmit: (values) => {
-            console.log(values)
             // POST request to create new review
             fetch(`/reviews/${trail_id}`, {
                 method: "POST",
@@ -24,10 +23,7 @@ function ReviewForm() {
                 body: JSON.stringify(values, null, 2),
             })
             .then((res) => {
-                if (res.status === 201) {
-                  console.log("Review Successfully created!")
-                  setIsSuccessful(true)
-                }
+                if (res.status === 201) setIsSuccessful(true)
             })
             .catch(error => console.error(error))
             },
