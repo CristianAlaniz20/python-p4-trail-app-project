@@ -16,10 +16,7 @@ function TrailPage() {
         .then(res => {
             if (res.status === 200) {
               res.json()
-              .then(resReviews => {
-                console.log(`resReview: ${resReviews}`)
-                setReviews(resReviews)
-              })
+              .then(resReviews => setReviews(resReviews))
             }
           })
         .catch(error => console.error(error))
@@ -31,19 +28,14 @@ function TrailPage() {
         .then(res => {
             if (res.status === 200) {
               res.json()
-              .then(resTrail => {
-                console.log(`resTrail: ${resTrail}`)
-                setTrail(resTrail)
-              })
+              .then(resTrail => setTrail(resTrail))
             }
           })
         .catch(error => console.error(error))
     }, [trail_id])
 
     // Re routes to Review Page
-    function handleCreateReviewButtonClick() {
-      history.push(`/reviews/${trail_id}`)
-    }
+    const handleCreateReviewButtonClick = () => history.push(`/reviews/${trail_id}`)
 
     return (
         <>
