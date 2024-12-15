@@ -225,44 +225,57 @@ class ReviewsForTrail(Resource):
             handle_exception(e)
 
     def post(self, trail_id):
-        user_id = session['user_id']
-
-        # Check if trail_id and user_id have a value
-        if not trail_id or not user_id:
-            return make_response(jsonify({"error" : "Could not get trail_id or user_id"}), 422)
-
-        data = request.get_json()
-        rating = data['rating']
-        text = data['text']
-
-        # Check if ReviewForm information was recieved
-        if not data:
-            return make_response(jsonify({"error" : "No data was received."}), 422)
-
         try:
+            user_id = session['user_id']
+            data = request.get_json()
+            rating = data['rating']
+            text = data['text']
+
+            # List of checks
+            checks_list = [check_if_trail_id(trail_id), check_if_user_id(user_id), check_if_data(data)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # create new review instance
             new_review = Review(
                 rating=rating,
                 text=text
             )
+
+            # check if instance was created
+            error_message = check_if_new_instance(new_review)
+
+            if error_message:
+                return error_message
+
+            # Assign the new reviews trail and user id's
             new_review.trail_id = trail_id
             new_review.user_id = user_id
 
+            # add new review instance to db
             db.session.add(new_review)
             db.session.flush()
-            print("new review added to session")
+            
+            # assign the new reviews _username attribute
             new_review._username = new_review.user.username
            
+            # commit to db
             db.session.commit()
-            print(f"new review: {new_review}")
-            print(f"new review user: {new_review.user}")
-            print(f"new review user username: {new_review.user.username}")
 
             return make_response(new_review.to_dict(), 201)
          
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
 class SavedTrailsbyUserId(Resource):
     def get(self):
