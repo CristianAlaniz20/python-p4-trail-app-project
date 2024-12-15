@@ -616,29 +616,33 @@ class EditUser(Resource):
             user_id = session['user_id']
             user = User.query.filter(User.id == user_id).first()
             
-            # Check if user_id has a value
-            if not user_id:
-                print("Inside no user id")
-                return make_response(jsonify({"error" : "No user id was found."}), 422)
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_user(user)]
 
-            # Check if user has a value
-            if not user:
-                print("inside no user")
-                return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
 
             # Delete user from db
             db.session.delete(user)
             db.session.commit()
 
-            # Remove user_id from sessoin
+            # Remove user_id from session
             session['user_id'] = None
 
-            return make_response({}, 204)
+            return make_response(jsonify({"message" : "User successfully deleted."}), 204)
 
         # Any other exception
         except Exception as e:
-            db.session.rollback()
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
