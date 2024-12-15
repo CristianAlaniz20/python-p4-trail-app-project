@@ -311,7 +311,7 @@ class SavedTrailsbyUserId(Resource):
             session_user_id = session['user_id']
             
             # List of checks
-            checks_list = [check_if_trail_id(trail_id), check_if_user_id(user_id)]
+            checks_list = [check_if_trail_id(request_trail_id), check_if_user_id(session_user_id)]
 
             error_message = None
 
