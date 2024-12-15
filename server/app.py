@@ -536,32 +536,35 @@ class CreateTrail(Resource):
 
 class CheckPassword(Resource):
     def post(self):
-        user_id = session['user_id']
-        password = request.json.get('confirmationPassword')
-        user = User.query.filter(User.id == user_id).first()
+        try:
+            user_id = session['user_id']
+            password = request.json.get('confirmationPassword')
+            user = User.query.filter(User.id == user_id).first()
 
-        # Check if password request data has a value
-        if not password:
-            print("inside no password")
-            return make_response(jsonify({"error" : "No data received"}), 422)
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_attribute(password), check_if_user(user)]
 
-        # Check if user_id has a value
-        if not user_id:
-            print("Inside no user id")
-            return make_response(jsonify({"error" : "No user id was found."}), 422)
+            error_message = None
 
-        # Check if user has a value
-        if not user:
-            print("inside no user")
-            return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
 
-        if user.authenticate(password):
-            print("inside successful code")
-            return make_response(jsonify({"message" : "password verified successfully!"}), 200)
+            # Early return if there is an error
+            if error_message:
+                return error_message
 
-        else:
-            return make_response(jsonify({"error" : "inputed password does not match password in our system!"}), 422)
+            # Check if password matches whats in db
+            if user.authenticate(password):
+                return make_response(jsonify({"message" : "password verified successfully!"}), 200)
 
+            return make_response(jsonify({"error" : "Inputed password does not match password in the system."}), 401)
+
+        # Handle Exception
+        except Exception as e:
+            handle_exception(e)
 
 class EditUser(Resource):
     def put(self):
