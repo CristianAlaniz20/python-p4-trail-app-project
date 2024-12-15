@@ -192,18 +192,29 @@ class TrailsIndex(Resource):
 
 class TrailById(Resource):
     def get(self, trail_id):
-        if not trail_id:
-            return make_response(jsonify({"error" : "No id is found."}), 422)
-
         try:
             trail = Trail.query.filter(Trail.id == trail_id).first()
 
-            return make_response(trail.to_dict(), 200)
+            # List of checks
+            checks_list = [check_if_trail_id(trail_id), check_if_trail(trail)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            if trail:
+                return make_response(trail.to_dict(), 200)
 
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
 class ReviewsForTrail(Resource):
     def get(self, trail_id):
