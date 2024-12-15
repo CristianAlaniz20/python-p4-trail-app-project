@@ -305,26 +305,31 @@ class SavedTrailsbyUserId(Resource):
         except Exception as e:
             handle_exception(e)
 
-    def put(self):
+    def post(self):
         try:
-            # Get and Check trail_id from the request
             request_trail_id = request.json.get("id")
-            if not request_trail_id:
-                print("Inside no request trail id")
-                return make_response(jsonify({"error" : "Could not access request data"}), 422)
-
-            # Get and Check user_id from the session
             session_user_id = session['user_id']
-            if not session_user_id:
-                print("Inside no session user id")
-                return make_response(jsonify({"error" : "No user in session."}), 422)
+            
+            # List of checks
+            checks_list = [check_if_trail_id(trail_id), check_if_user_id(user_id)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
 
             # Query UserTrail table to see if instance already exists
             user_trail = UserTrail.query.filter(UserTrail.user_id == session_user_id, UserTrail.trail_id == request_trail_id).first()
 
             # Create UserTrail instance 
             if not user_trail:
-                print("Inside no user trail in db")
                 newUserTrail = UserTrail(
                     user_id=session_user_id,
                     trail_id=request_trail_id
@@ -332,14 +337,16 @@ class SavedTrailsbyUserId(Resource):
                 newUserTrail.is_saved = True
 
                 # Check if UserTrail instance was created
-                if not newUserTrail:
-                    print("Inside no UserTrail instance created")
-                    return make_response(jsonify({"error" : "Could not create UserTrail instance"}), 422)
+                error_message = check_if_new_instance(newUserTrail)
+                
+                if error_message:
+                    return error_message
             
+                # add and commit new UserTrail instance to db
                 db.session.add(newUserTrail)
                 db.session.commit()
 
-                return make_response({}, 201)
+                return make_response(jsonify({"message" : "Trail has been saved and recorded."}), 201)
 
             # Set the existinng instance is_saved value to True
             else:
@@ -347,13 +354,11 @@ class SavedTrailsbyUserId(Resource):
 
                 db.session.commit()
 
-                return make_response({}, 201)
+                return make_response(jsonify({"message" : "Trail has been saved."}), 201)
 
         # Handle Exception
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)  
+            handle_exception(e)  
 
 class HikedTrailsbyUserId(Resource):
     def get(self):
