@@ -577,48 +577,39 @@ class EditUser(Resource):
             new_profile_image_url = data['newProfileImage']
             new_bio = data['newBio']
 
-            # Check if user_id has a value
-            if not user_id:
-                print("Inside no user id")
-                return make_response(jsonify({"error" : "No user id was found."}), 422)
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_user(user), check_if_data(data), check_if_attribute(new_username), check_if_attribute(new_password)]
 
-            # Check if user has a value
-            if not user:
-                print("inside no user")
-                return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+            error_message = None
 
-            # Check if request data was received
-            if not data:
-                print("inside no data")
-                return make_response(jsonify({"error" : "No data was received"}), 422)
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
 
-            # Check that the new username/password are not empty strings
-            if not len(new_username) > 0 or not len(new_password) > 0:
-                print("inside username or password empty")
-                return make_response(jsonify({"error" : "Username or password cannot be empty"}), 400)
+            # Early return if there is an error
+            if error_message:
+                return error_message
 
             # Assign new values to user object
-            print(f"before: {user}")
             user.username = new_username
             user.password_hash = new_password
             user.profile_image_url = new_profile_image_url
             user.bio = new_bio
-            print(f"after: {user}")
 
+            # Commit changed to db
             db.session.commit()
 
             return make_response(jsonify({"message" : "User successfully updated!"}), 200)
 
         # Model column constraints errors
         except IntegrityError:
-            db.session.rollback()
-            print("IntegrityError: User Already exists.")
-            return make_response(jsonify({'errors': 'Username already taken.'}), 422)
+            handle_integrity_error()
 
         # Any other exception
         except Exception as e:
-            db.session.rollback()
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
     def delete(self):
         try:
