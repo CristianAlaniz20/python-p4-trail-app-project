@@ -75,26 +75,39 @@ class Signup(Resource):
 
 class Login(Resource):
     def post(self):
-        # Get request information
-        data = request.get_json()
-        print(data)
-        username = data.get('username', None)
-        password = data['password']
+        try:
+            data = request.get_json()
+            username = data.get('username', None)
+            password = data['password']
+            user = User.query.filter(User.username == username).first()
 
-        # Check if a user in db matches username in request
-        user = User.query.filter(User.username == username).first()
-        print(user)
-        if not user:
-            return make_response(jsonify({"error" : "invalid username"}), 401)
+            # List of checks
+            checks_list = [check_if_data(data), check_if_attribute(username), check_if_attribute(password), check_if_user(user)]
 
-        # Check if password in request matches the password in db for User
-        if user.authenticate(password):
-            session['user_id'] = user.id
+            error_message = None
 
-            return make_response(user.to_dict(), 200)
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
 
-        # invalid username or password message
-        return make_response(jsonify({"error" : "invalid username or password."}), 401)
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # Check if password in request matches the password in db for User
+            if user.authenticate(password):
+                session['user_id'] = user.id
+
+                return make_response(user.to_dict(), 200)
+
+            # invalid username or password message
+            return make_response(jsonify({"error" : "invalid username or password."}), 401)
+        
+        # handles any other type of exceptions
+        except Exception as e:
+            handle_exception(e)
 
 class CheckSession(Resource):
     def get(self):
