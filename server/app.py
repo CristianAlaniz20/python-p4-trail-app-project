@@ -111,19 +111,36 @@ class Login(Resource):
 
 class CheckSession(Resource):
     def get(self):
-        user_id = session['user_id']
-        print(f"user id: {user_id}")
-
-        #check if user_id has any value
-        if user_id:
+        try:
+            user_id = session['user_id']
             user = User.query.filter(User.id == user_id).first()
+
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_user(user)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            #check if user has any value
             if user:
                 return make_response(user.to_dict(), 200)
             else:
                 session['user_id'] = None
-                return make_response(jsonify({"error": "User not found."}), 404)
-        else:
+        
             return make_response(jsonify({"error" : "You are not logged in."}), 401)
+        
+        # handles any other type of exceptions
+        except Exception as e:
+            handle_exception(e)
 
 class Logout(Resource):
     def delete(self):
