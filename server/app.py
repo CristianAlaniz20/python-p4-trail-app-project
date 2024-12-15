@@ -218,19 +218,20 @@ class TrailById(Resource):
 
 class ReviewsForTrail(Resource):
     def get(self, trail_id):
-        if not trail_id:
-            print("no trail id")
-            return make_response(jsonify({"error" : "No id is found."}), 422)
-
         try:
             reviews = [review.to_dict() for review in Review.query.all() if review.trail_id == trail_id]
 
+            # Check if error_message has a value
+            error_message = check_if_trail_id(trail_id)
+
+            if error_message:
+                return error_message
+
+            # frontend handles if reviews is empty
             return make_response(reviews, 200)
 
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
     def post(self, trail_id):
         user_id = session['user_id']
