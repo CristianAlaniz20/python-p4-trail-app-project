@@ -280,10 +280,13 @@ class ReviewsForTrail(Resource):
 class SavedTrailsbyUserId(Resource):
     def get(self):
         try:
-             # Get and Check user_id from the session
             user_id = session['user_id']
-            if not user_id:
-                return make_response(jsonify({"error" : "No user in session."}), 422)
+            
+            # check if error_message has a value
+            error_message = check_if_user_id(user_id)
+
+            if error_message:
+                return error_message
             
             # Query database to get all saved trails for User
             saved_trails = (
@@ -292,8 +295,6 @@ class SavedTrailsbyUserId(Resource):
                 .filter(UserTrail.user_id == user_id, UserTrail.is_saved == True)
                 .all()
             )
-            if not saved_trails:
-                return make_response(jsonify({"error" : "No saved trails found."}), 200)
 
             # Serialize all trails in saved_trails
             serialized_saved_trails = [saved_trail.to_dict() for saved_trail in saved_trails]
@@ -302,9 +303,7 @@ class SavedTrailsbyUserId(Resource):
 
         # Handle Exception
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
     def put(self):
         try:
