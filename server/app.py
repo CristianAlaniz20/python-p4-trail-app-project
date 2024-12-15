@@ -144,13 +144,24 @@ class CheckSession(Resource):
 
 class Logout(Resource):
     def delete(self):
-        user_id = session['user_id']
-        if user_id:
-            session['user_id'] = None
+        try:
+            user_id = session['user_id']
 
-            return make_response({}, 204)
-        else:
-            return make_response(jsonify({"error" : 'Cannot logout because you are already logged out'}), 401)
+            # check if user_id has a value 
+            error_message = check_if_user_id(user_id)
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            if user_id:
+                session['user_id'] = None
+
+                return make_response({}, 204)
+
+         # handles any other type of exceptions
+        except Exception as e:
+            handle_exception(e)
 
 class TrailsIndex(Resource):
     def post(self):
