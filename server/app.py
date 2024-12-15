@@ -169,23 +169,14 @@ class TrailsIndex(Resource):
             address = request.json.get('city')
             trails = [trail.to_dict() for trail in Trail.query.all() if address.lower() in trail.address.lower()]
 
-            # List of checks
-            checks_list = [check_if_attribute(address), check_if_trail(trails)]
+            # Check if address has value
+            error_message = check_if_attribute(address)
 
-            error_message = None
-
-            # loops through list and breaks if any of the checks have a value
-            for check in checks_list:
-                error_message = check
-                if error_message:
-                    break
-
-            # Early return if there is an error
             if error_message:
                 return error_message
-
-            if trails:
-                return make_response(trails, 201)
+            
+            # frontend handles if trails has no value
+            return make_response(trails, 201)
 
         except Exception as e:
             handle_exception(e)
