@@ -1,6 +1,6 @@
 # helper functions for app.py file
 
-from flask import sesion, jsonify, make_response
+from flask import session, jsonify, make_response
 from config import db
 
 # checks if the request body has a value
@@ -46,4 +46,7 @@ def handle_integrity_error():
 # exception response
 def handle_exception(exception):
     db.session.rollback()
-    return make_response(jsonify({'error': f"{str(e)}"}), 422)
+    return make_response(jsonify({'error': f"{str(e)}"}), 500)
+
+def duplicate_username():
+    return make_response(jsonify({"error" : "User with that username already exists."}), 400)
