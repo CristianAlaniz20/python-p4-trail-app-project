@@ -165,24 +165,30 @@ class Logout(Resource):
 
 class TrailsIndex(Resource):
     def post(self):
-        address = request.json.get('city')
-
-        if not address:
-            print("no adress")
-            return make_response(jsonify({"error" : "No city was received"}), 422)
-
         try:
+            address = request.json.get('city')
             trails = [trail.to_dict() for trail in Trail.query.all() if address.lower() in trail.address.lower()]
 
-            return make_response(trails, 201)
+            # List of checks
+            checks_list = [check_if_attribute(address), check_if_trail(trails)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            if trails:
+                return make_response(trails, 201)
 
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
-
-        print("Something went wrong")
-        return make_response(jsonify({"error" : "Something went wrong"}), 404)
+            handle_exception(e)
 
 class TrailById(Resource):
     def get(self, trail_id):

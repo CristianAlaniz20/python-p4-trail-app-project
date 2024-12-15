@@ -21,7 +21,7 @@ def check_if_user(user):
 # checks if a trail_id has a value
 def check_if_trail_id(trail_id):
     if not trail_id:
-        return make_response(jsonify({"error" : "No trail id received."}), 400)
+        return make_response(jsonify({"error" : "No trail(s) id received."}), 400)
 
 # checks if a trail has any value
 def check_if_trail(trail):
@@ -46,7 +46,7 @@ def handle_integrity_error():
 # exception response
 def handle_exception(exception):
     db.session.rollback()
-    return make_response(jsonify({'error': f"{str(e)}"}), 500)
+    return make_response(jsonify({'error': f"{str(exception)}"}), 500)
 
 def duplicate_username():
     return make_response(jsonify({"error" : "User with that username already exists."}), 400)
