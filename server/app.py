@@ -445,49 +445,44 @@ class HikedTrailsbyUserId(Resource):
         except Exception as e:
             handle_exception(e)
 
-
 class ChangeUserRole(Resource):
     def post(self):
-        inputed_admin_secret_key = request.json.get("adminSecretKey")
-        app_admin_secret_key = app.admin_secret_key
-        user_id = session["user_id"]
-        user = User.query.filter(User.id == user_id).first()
+        try:
+            inputed_admin_secret_key = request.json.get("adminSecretKey")
+            app_admin_secret_key = app.admin_secret_key
+            user_id = session["user_id"]
+            user = User.query.filter(User.id == user_id).first()
 
-        # Check if input_admin_secret_key has a value
-        if not inputed_admin_secret_key:
-            print("Inside no inputed admin secret key")
-            return make_response(jsonify({"error" : "No data was recieved."}), 422)
+            # List of checks
+            checks_list = [check_if_attribute(inputed_admin_secret_key), check_if_attribute(app_admin_secret_key), check_if_user_id(user_id), check_if_user(user)]
 
-        # Check if app_admin_secret_key has a value
-        if not app_admin_secret_key:
-            print("Inside no app admin secret key")
-            return make_response(jsonify({"error" : "No app admin key found."}), 422)
+            error_message = None
 
-        # Check if user_id has a value
-        if not user_id:
-            print("Inside no user id")
-            return make_response(jsonify({"error" : "No user id was found."}), 422)
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
 
-        # Check if user has a value
-        if not user:
-            print("inside no user")
-            return make_response(jsonify({"error" : "Could not find a user with user id"}), 422)
+            # Early return if there is an error
+            if error_message:
+                return error_message
 
-        # Check if inputed key is same as app key
-        if inputed_admin_secret_key == app_admin_secret_key:
-            # Assign user role to admin
-            user.role = "admin"
+            # Check if inputed key is same as app key
+            if inputed_admin_secret_key == app_admin_secret_key:
+                # Assign user role to admin
+                user.role = "admin"
 
-            db.session.commit()
+                db.session.commit()
 
-            print("Inside input key is same as app key")
-            return make_response(jsonify({"user role" : user.role}), 201)
+                return make_response(jsonify({"message" : "Account role successfully changed to admin."}), 201)
 
-        else:
-            print(f"inputed key: {inputed_admin_secret_key}")
-            print(f"app key: {app.admin_secret_key}")
-            print("Inputed secret key does not match app secret key")
-            return make_response(jsonify({"error" : "Invalid secret key"}), 422)
+            else:
+                return make_response(jsonify({"error" : "Invalid secret key."}), 422)
+
+        # Handle Exception
+        except Exception as e:
+            handle_exception(e)
 
 class CreateTrail(Resource):
     def post(self):
