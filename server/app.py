@@ -11,42 +11,67 @@ from sqlalchemy.exc import IntegrityError
 from config import app, db, api
 # Add your model imports
 from models import User, Trail, UserTrail, Review
+# Helper functions imports
+from helpers import check_if_data, check_if_user_id, check_if_user, check_if_trail_id, check_if_trail, check_if_attribute, check_if_new_instance, handle_integrity_error, handle_exception, duplicate_username
 
 # Views go here!
 
 class Signup(Resource):
     def post(self):
-        data = request.get_json()
-        print(data)
-        username = data.get('username', None)
-        password = data['password']
-        image_url = data['profileImage']
-        bio = data['bio']
-
-        if not username:
-            print("NO username in data!")#
-            return make_response(jsonify({'errors': 'Missing username.'}), 422)
-
-        new_user = User(username=username, profile_image_url=image_url, bio=bio)
-        print(new_user)
         try:
+            data = request.get_json()
+            username = data.get('username', None)
+            password = data['password']
+            image_url = data['profileImage']
+            bio = data['bio']
+
+            # List of checks
+            checks_list = [check_if_data(data), check_if_attribute(username), check_if_attribute(password)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # Check if a user with the username already exists
+            if User.query.filter(User.username == username).first():
+                return duplicate_username()
+
+            # create new user instance
+            new_user = User(username=username, profile_image_url=image_url, bio=bio)
+            
+            # check if instance was created
+            error_message = check_if_new_instance(new_user)
+
+            if error_message:
+                return error_message
+        
+            # assign password to instance
             new_user.password_hash = password 
 
+            # add and commit to db
             db.session.add(new_user)
             db.session.commit()
 
+            # assign new_user db instance id to session user_id
             session['user_id'] = new_user.id
 
             return make_response(new_user.to_dict(), 201)
 
+        # handles new instance does not respect model constraints
         except IntegrityError:
-            db.session.rollback()
-            print("IntegrityError: User Already exists.")
-            return make_response(jsonify({'errors': 'Username already taken.'}), 422)
+            handle_integrity_error()
 
+        # handles any other type of exceptions
         except Exception as e:
-            db.session.rollback()
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)
+            handle_exception(e)
 
 class Login(Resource):
     def post(self):
