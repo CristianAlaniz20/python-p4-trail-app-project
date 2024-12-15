@@ -13,16 +13,16 @@ function Trail({ id, name, address, length, description, profileImage }) {
     // Handle Saving Trail 
     function handleSaveTrailClick() {
         const trailIdObject = { id: id }
-        // PUT request to SavedTrailsbyUserId resource
+        // POST request to SavedTrailsbyUserId resource
         fetch("/saved_trails", {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
         .then(res => {
-            if (res.status === 200 || res.status === 201) {
+            if (res.status === 201) {
                 res.json()
                 .then(data => {
                     console.log(data)
@@ -36,16 +36,16 @@ function Trail({ id, name, address, length, description, profileImage }) {
     // Handle setting trail hiked value to True
     function handleHikedTrailClick() {
         const trailIdObject = { id: id }
-        // PUT request to HikedTrailsbyUserId resource
+        // POST request to HikedTrailsbyUserId resource
         fetch("/hiked_trails", {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
         .then(res => {
-            if (res.status === 200 || res.status === 201) {
+            if (res.status === 201) {
                 res.json()
                 .then(data => {
                     console.log(data)
