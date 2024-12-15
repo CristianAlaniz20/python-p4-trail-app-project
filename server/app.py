@@ -494,17 +494,22 @@ class CreateTrail(Resource):
             trail_description = data['trailDescription']
             trail_image_url = data['trailImageUrl']
 
-            # Check if data has a value
-            if not data:
-                print("Inside no data was sent")
-                return make_response(jsonify({"error" : "No data was recieved."}), 422)
+            # List of checks
+            checks_list = [check_if_data(data), check_if_attribute(trail_name), check_if_attribute(trail_address), check_if_attribute(str(trail_length)), check_if_attribute(trail_description), check_if_attribute(trail_image_url)]
 
-            # Check if nay of the trial attributes do not have a value
-            for attribute in [trail_name, trail_address, trail_length, trail_description, trail_image_url]:
-                if not attribute:
-                    print(f"attribute {attribute} has no value")
-                    return make_response(jsonify({"error" : "Some attribute had no value"}), 422)
+            error_message = None
 
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # create a Trail model instance
             new_trail = Trail(
                 name=trail_name,
                 address=trail_address,
@@ -514,22 +519,20 @@ class CreateTrail(Resource):
             )
 
             # Check if new trail has any value
-            if not new_trail:
-                print("Inside new trail has no value")
-                return make_response(jsonify({"error" : "New trail has no value."}), 422)
+            error_message = check_if_new_instance(new_trail)
+            if error_message:
+                return error_message
 
             # add new_review to session
             db.session.add(new_trail)
             db.session.commit()
 
-            return make_response(new_trail.to_dict(), 201)
-
+            if new_trail:
+                return make_response(new_trail.to_dict(), 201)
+        
         # Handle Exception
         except Exception as e:
-            db.session.rollback()
-            print("inside xception")
-            return make_response(jsonify({'errors': f"{str(e)}"}), 422)  
-
+            handle_exception(e)
 
 class CheckPassword(Resource):
     def post(self):
