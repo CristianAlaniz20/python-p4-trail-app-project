@@ -7,7 +7,6 @@ import { ResponseMessageContext }from "../components/ResponseMessageProvider";
 function LogIn({ onLogin }) {
     const [hasAccount, setHasAccount] = useState(true)
     const {message, statusCode} = useContext(ResponseMessageContext)
-    console.log(`message: ${message} statusCode: ${statusCode}`)
 
     return (
         <div>
