@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AllTrails from "../components/AllTrails";
+import { ResponseMessageContext } from "../components/ResponseMessageProvider";
 
 function Home() {
     const [trails, setTrails] = useState([])
     const [hasSearched, setHasSearched] = useState(false)
+    const { handleResponse } = useContext(ResponseMessageContext)
 
     const formSchema = yup.object().shape({
       city: yup.string().required("must enter a city!")
@@ -25,21 +27,15 @@ function Home() {
             },
             body: JSON.stringify(values, null, 2),
           })
-          .then(res => {
-            if (res.status === 201) {
-              res.json()
-              .then(resTrails => {
-                setTrails(resTrails)
-                setHasSearched(true)
-              })
-            }
-          })
+          .then(res => handleResponse(res, () => setHasSearched(true)))
+          .then(result => setTrails(result))
           .catch(error => console.error(error))
         },
     })
 
     return (
         <>
+            <p>Disclaimer: If what you entered matches an address, it will be included in the result.</p>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="city" >Enter City Here: </label>
                 <input 
