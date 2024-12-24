@@ -188,7 +188,12 @@ class TrailsIndex(Resource):
                 return error_message
             
             # frontend handles if trails has no value
-            return make_response(trails, 201)
+            response = {
+                "message" : "City received!",
+                "expected_data" : trails
+            }
+
+            return make_response(jsonify(response), 201)
 
         except Exception as e:
             handle_exception(e)
