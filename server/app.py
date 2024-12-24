@@ -63,7 +63,12 @@ class Signup(Resource):
             # assign new_user db instance id to session user_id
             session['user_id'] = new_user.id
 
-            return make_response(new_user.to_dict(), 201)
+            response = {
+                "message" : "Sucessfully signed up!",
+                "expected_data" : user.to_dict()
+            }
+
+            return make_response(jsonify(response), 201)
 
         # handles new instance does not respect model constraints
         except IntegrityError:
@@ -100,7 +105,12 @@ class Login(Resource):
             if user.authenticate(password):
                 session['user_id'] = user.id
 
-                return make_response(user.to_dict(), 200)
+                response = {
+                    "message" : "Sucessfully logged in!",
+                    "expected_data" : user.to_dict()
+                }
+
+                return make_response(jsonify(response), 200)
 
             # invalid username or password message
             return make_response(jsonify({"error" : "invalid username or password."}), 401)
