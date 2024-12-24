@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function NavBar({ user, setUser }) {
+    const { handleResponse } = useContext(ResponseMessageContext)
+
     function handleLogoutClick() {
         // DELETE request to Logout Resource
         fetch("/logout", { method: "DELETE" })
-        .then(res => {
-            if (res.status === 204) setUser(null)
-        })
+        .then(res => handleResponse(res, () => setUser(null)))
         .catch(error => console.error(error))
     }
 
