@@ -167,7 +167,9 @@ class Logout(Resource):
             if user_id:
                 session['user_id'] = None
 
-                return make_response({}, 204)
+                response = {"message" : "Successfully logged out!"}
+
+                return make_response(jsonify(response), 200)
 
          # handles any other type of exceptions
         except Exception as e:
