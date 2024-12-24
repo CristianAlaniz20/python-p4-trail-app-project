@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LogIn from "../pages/LogIn";
 import NavBar from "./NavBar";
@@ -9,9 +9,12 @@ import ReviewForm from "./ReviewForm";
 import UserPage from "../pages/UserPage";
 import CreateTrailPage from "../pages/CreateTrailPage";
 import UpdateUserPage from "../pages/UpdateUserPage";
+import ResponseMessage from "./ResponseMessage";
+import { ResponseMessageContext }from "./ResponseMessageProvider";
 
 function App() {
   const [user, setUser] = useState(null)
+  const {message, statusCode} = useContext(ResponseMessageContext)
 
   useEffect(() => {
     // auto-login
@@ -36,6 +39,7 @@ function App() {
         {/* Routes for different pages of the Application */}
         <Header />
         <NavBar user={user} setUser={setUser} />
+        {message && statusCode ? <ResponseMessage /> : null}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/trails/:trail_id" component={TrailPage} />
