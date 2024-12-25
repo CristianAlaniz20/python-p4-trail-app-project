@@ -9,11 +9,18 @@ function ReviewForm() {
     const history = useHistory()
     const { handleResponse } = useContext(ResponseMessageContext)
 
+    // validation schema for formik
+    const formSchema = yup.object().shape({
+        rating: yup.string().required("Must enter a username."),
+        text: yup.string().required("Must enter a password")
+    })
+
     const formik = useFormik({
         initialValues: {
             rating: "",
             text: ""
         },
+        validationSchema: formSchema,
         onSubmit: (values) => {
             // POST request to create new review
             fetch(`/reviews/${trail_id}`, {
