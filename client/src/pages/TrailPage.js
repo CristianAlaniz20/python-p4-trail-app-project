@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Review from "../components/Review"
 import Trail from "../components/Trail"
+import { ResponseMessageContext } from "../components/ResponseMessageProvider";
 
 function TrailPage() {
     const [reviews, setReviews] = useState([])
     const [trail, setTrail] = useState({})
     const { trail_id } = useParams()
     const history = useHistory()
+    const { handleResponse } = useContext(ResponseMessageContext)
 
     useEffect(() => {
         // GET request for reviews with a trail_id equal to trail_id
@@ -25,12 +27,8 @@ function TrailPage() {
     useEffect(() => {
         // GET request for a trail with an id of trail_id
         fetch(`/trail/${trail_id}`)
-        .then(res => {
-            if (res.status === 200) {
-              res.json()
-              .then(resTrail => setTrail(resTrail))
-            }
-          })
+        .then(res => handleResponse(res))
+        .then(result => setTrail(result))
         .catch(error => console.error(error))
     }, [trail_id])
 
