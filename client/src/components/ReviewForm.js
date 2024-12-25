@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useFormik } from "formik";
-import Header from "./Header";
+import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function ReviewForm() {
     const { trail_id } = useParams()
     const [isSuccessful, setIsSuccessful] = useState(false)
     const history = useHistory()
+    const { handleResponse } = useContext(ResponseMessageContext)
 
     const formik = useFormik({
         initialValues: {
@@ -22,9 +23,7 @@ function ReviewForm() {
                 },
                 body: JSON.stringify(values, null, 2),
             })
-            .then((res) => {
-                if (res.status === 201) setIsSuccessful(true)
-            })
+            .then((res) => handleResponse(res, () => setIsSuccessful(true)))
             .catch(error => console.error(error))
             },
     })
@@ -38,7 +37,6 @@ function ReviewForm() {
     
     return (
         <>
-            <Header />
             <h2>Create A Review Form:</h2>
             <form onSubmit={formik.handleSubmit} >
                 <label htmlFor="rating" >Rating: </label>
