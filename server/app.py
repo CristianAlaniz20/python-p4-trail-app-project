@@ -223,7 +223,7 @@ class TrailById(Resource):
                     "message" : "Trail found!",
                     "expected_data" : trail.to_dict()
                 }
-                
+
                 return make_response(jsonify(response), 200)
 
         except Exception as e:
@@ -294,7 +294,12 @@ class ReviewsForTrail(Resource):
             # commit to db
             db.session.commit()
 
-            return make_response(new_review.to_dict(), 201)
+            response = {
+                "message" : "Review sucessfully created!",
+                "expected_data" : new_review.to_dict()
+            }
+
+            return make_response(jsonify(response), 201)
          
         except Exception as e:
             handle_exception(e)
