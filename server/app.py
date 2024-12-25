@@ -219,7 +219,12 @@ class TrailById(Resource):
                 return error_message
 
             if trail:
-                return make_response(trail.to_dict(), 200)
+                response = {
+                    "message" : "Trail found!",
+                    "expected_data" : trail.to_dict()
+                }
+                
+                return make_response(jsonify(response), 200)
 
         except Exception as e:
             handle_exception(e)
