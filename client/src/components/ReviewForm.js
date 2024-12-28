@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useFormik } from "formik";
 import * as yup from "yup"
@@ -6,7 +6,6 @@ import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function ReviewForm() {
     const { trail_id } = useParams()
-    const [isSuccessful, setIsSuccessful] = useState(false)
     const history = useHistory()
     const { handleResponse } = useContext(ResponseMessageContext)
 
@@ -31,17 +30,13 @@ function ReviewForm() {
                 },
                 body: JSON.stringify(values, null, 2),
             })
-            .then((res) => handleResponse(res, () => setIsSuccessful(true)))
+            .then((res) => handleResponse(res))
             .catch(error => console.error(error))
             },
     })
 
-    // If new review is successfully created, re-route to trail with trail_id
-    useEffect(() => {
-        if (isSuccessful) {
-            history.push(`/trails/${trail_id}`)
-        }
-    }, [isSuccessful])
+    // Re routes to Trail Page
+    const handleBackToTrailClick = () => history.push(`/trails/${trail_id}`)
     
     return (
         <>
@@ -67,6 +62,7 @@ function ReviewForm() {
 
                 <button type="submit" >Create Review</button>
             </form>
+            <button onClick={handleBackToTrailClick}>Back to Trail</button>
         </>
     )
 }
