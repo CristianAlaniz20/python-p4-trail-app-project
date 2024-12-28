@@ -64,8 +64,7 @@ class Signup(Resource):
             session['user_id'] = new_user.id
 
             response = {
-                "message" : "Sucessfully signed up!",
-                "expected_data" : user.to_dict()
+                "message" : "Sucessfully signed up!"
             }
 
             return make_response(jsonify(response), 201)
