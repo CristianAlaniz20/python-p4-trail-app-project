@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ResponseMessageContext } from "../components/ResponseMessageProvider";
 
 function DeleteUserPage({ setDeleteAccount, setUser }) {
+    const { handleResponse } = useContext(ResponseMessageContext)
+
     // handle YES button click
     function handleYesClick() {
         fetch("/edit_user", {
@@ -9,9 +12,7 @@ function DeleteUserPage({ setDeleteAccount, setUser }) {
                 "Content-Type": "application/json",
               },
         })
-        .then(res => {
-            if (res.status === 204) setUser(null)
-        })
+        .then(res => handleResponse(res, () => setUser(null)))
         .catch(error => console.error(error))
     }
 
