@@ -665,7 +665,7 @@ class EditUser(Resource):
             # Remove user_id from session
             session['user_id'] = None
 
-            return make_response(jsonify({"message" : "User successfully deleted."}), 204)
+            return make_response(jsonify({"message" : "User successfully deleted."}), 200)
 
         # Any other exception
         except Exception as e:
