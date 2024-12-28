@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function Trail({ id, name, address, length, description, profileImage }) {
     const history = useHistory()
+    const { handleResponse } = useContext(ResponseMessageContext)
     // for conditional JSX rendering
     const location = useLocation()
     const { trail_id } = useParams()
@@ -21,15 +23,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
-        .then(res => {
-            if (res.status === 201) {
-                res.json()
-                .then(data => {
-                    console.log(data)
-                    console.log("Trail sucessfully saved!")
-                })
-            }
-        })
+        .then(res => handleResponse(res))
         .catch(error => console.error(error))
     }
 
@@ -44,15 +38,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
-        .then(res => {
-            if (res.status === 201) {
-                res.json()
-                .then(data => {
-                    console.log(data)
-                    console.log("Trail sucessfully set to Hiked!")
-                })
-            }
-        })
+        .then(res => handleResponse(res))
         .catch(error => console.error(error))
     }
 
