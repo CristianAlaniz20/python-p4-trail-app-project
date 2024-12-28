@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { ResponseMessageContext } from "../components/ResponseMessageProvider";
 
 function CreateTrailPage() {
+    const { handleResponse } = useContext(ResponseMessageContext)
+
     // frontend validation for form
     const formSchema = yup.object().shape({
         trailName: yup.string().required("Must have a name."),
@@ -30,11 +33,7 @@ function CreateTrailPage() {
                 },
                 body: JSON.stringify(values, null, 2),
             })
-            .then(res => {
-                if (res.status === 201) {
-                    console.log("Trail succesfully created")
-                }
-            })
+            .then(res => handleResponse(res))
             .catch(error => console.error(error))
         }
     })
