@@ -554,7 +554,11 @@ class CreateTrail(Resource):
             db.session.commit()
 
             if new_trail:
-                return make_response(new_trail.to_dict(), 201)
+                response = {
+                    "message" : "Trail successfully created!"
+                }
+
+                return make_response(jsonify(response), 201)
         
         # Handle Exception
         except Exception as e:
