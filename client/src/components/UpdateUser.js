@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function UpdateUser({ user, setUpdateUser, userPassword }) {
+    const { handleResponse } = useContext(ResponseMessageContext)
+
     // verification for the form inputs
     const formSchema = yup.object().shape({
         newUsername: yup.string(),
@@ -29,9 +32,7 @@ function UpdateUser({ user, setUpdateUser, userPassword }) {
               },
               body: JSON.stringify(values, null, 2),
             })
-            .then((res) => {
-              if (res.status === 200) setUpdateUser(false)
-            })
+            .then((res) => handleResponse(res, () => setUpdateUser(false)))
             .catch(error => console.error(error))
           },
         })
