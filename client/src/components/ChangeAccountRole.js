@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { ResponseMessageContext } from "./ResponseMessageProvider";
 
 function ChangeAccountRole({ setShowChangeAccRole }) {
+    const { handleResponse } = useContext(ResponseMessageContext)
+
     // Validation for input
     const formSchema = yup.object().shape({
         adminSecretKey: yup.string().required("Must enter admind secret key.")
@@ -22,11 +25,7 @@ function ChangeAccountRole({ setShowChangeAccRole }) {
               },
               body: JSON.stringify(values, null, 2),
             })
-            .then(res => {
-                if (res.status === 201) {
-                    console.log("Successfully changed role")
-                }
-            })
+            .then(res => handleResponse(res))
             .catch(error => console.error(error))
         },
     })
