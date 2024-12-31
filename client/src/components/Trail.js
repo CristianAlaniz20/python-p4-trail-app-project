@@ -44,6 +44,21 @@ function Trail({ id, name, address, length, description, profileImage }) {
         .catch(error => console.error(error))
     }
 
+    // Effect hook to retrieve a userTrail from db using trail id
+    useEffect(() => {
+        // GET request to EditUserTrail resource 
+        fetch(`/user_trail/${id}`)
+        .then(res => {
+            if (res.status === 200) {
+                res.json()
+                .then(resUserTrail => {
+                    setUserTrail(resUserTrail)
+                })
+            }
+        })
+        .catch(error => console.error(error))
+    }, [])
+
     return (
         <>
             <div>
