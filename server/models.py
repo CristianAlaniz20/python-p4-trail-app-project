@@ -98,6 +98,9 @@ class UserTrail(db.Model, SerializerMixin):
 
     trail = db.relationship("Trail", back_populates="user_trails")
 
+    # Serialization rules
+    serialize_rules = ('-user', '-trail',)
+
     # Constraint to ensure no duplicate instances of user_id and trail_id pairs
     __table_args__ = (UniqueConstraint('user_id', 'trail_id', name='no_duplicate_user_trail'),)
 
