@@ -12,7 +12,7 @@ from config import app, db, api
 # Add your model imports
 from models import User, Trail, UserTrail, Review
 # Helper functions imports
-from helpers import check_if_data, check_if_user_id, check_if_user, check_if_trail_id, check_if_trail, check_if_attribute, check_if_new_instance, handle_integrity_error, handle_exception, duplicate_username
+from helpers import check_if_data, check_if_user_id, check_if_user, check_if_trail_id, check_if_trail, check_if_attribute, check_if_new_instance, handle_integrity_error, handle_exception, duplicate_username, check_if_user_trail
 
 # Views go here!
 
@@ -674,6 +674,95 @@ class EditUser(Resource):
         except Exception as e:
             handle_exception(e)
 
+class EditUserTrail(Resource):
+    def get(self, trail_id):
+        try:
+            user_id = session['user_id']
+
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_trail_id(trail_id)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # Queries user_trails db table for record with matching trail_id and user_id
+            user_trail = UserTrail.query.filter(UserTrail.trail_id == trail_id, UserTrail.user_id == user_id).first()
+
+            # Early return if no user_trail record could be found
+            error_message = check_if_user_trail(user_trail)
+            if not user_trail:
+                return error_message
+
+            return make_response(user_trail.to_dict(), 200)
+        
+        # Any other exception
+        except Exception as e:
+            handle_exception(e)
+
+    def put(self, trail_id):
+        try:
+            updated_user_trail = request.get_json()#.json.get('updated_user_trail')
+            user_id = session['user_id']
+
+            # List of checks
+            checks_list = [check_if_user_id(user_id), check_if_trail_id(trail_id), check_if_data(updated_user_trail)]
+
+            error_message = None
+
+            # loops through list and breaks if any of the checks have a value
+            for check in checks_list:
+                error_message = check
+                if error_message:
+                    break
+
+            # Early return if there is an error
+            if error_message:
+                return error_message
+
+            # Queries user_trails db table for record with matching trail_id and user_id
+            user_trail = UserTrail.query.filter(UserTrail.trail_id == trail_id, UserTrail.user_id == user_id).first()
+
+            # Early return if no user_trail record could be found
+            error_message = check_if_user_trail(user_trail)
+            if not user_trail:
+                return error_message
+
+            message = None
+
+            # Checks if user_trail.is_saved has the same value as updated_user_trail.is_saved 
+            if not user_trail.is_saved == updated_user_trail["is_saved"]:
+                user_trail.is_saved = updated_user_trail["is_saved"]
+                message = "Trail successfully unsaved."
+            else:
+                message = "Trail is unsaved."
+
+            # Checks if user_trail.is_hiked has the same value as updated_user_trail.is_hiked
+            if not user_trail.is_hiked == updated_user_trail["is_hiked"]:
+                user_trail.is_hiked = updated_user_trail["is_hiked"]
+                message = "Trail succesfully marked as not hiked."
+            else:
+                message = "Trail is marked as not hiked."
+
+            # commit changed to db
+            db.session.commit()
+
+            return make_response(jsonify({"message" : message}), 200)
+
+         # Any other exception
+        except Exception as e:
+            handle_exception(e)
+
+        
+
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
@@ -687,6 +776,7 @@ api.add_resource(ChangeUserRole, "/change_user_role", endpoint="change_user_role
 api.add_resource(CreateTrail, "/create_trail", endpoint="create_trail")
 api.add_resource(CheckPassword, "/check_password", endpoint="check_password")
 api.add_resource(EditUser, "/edit_user", endpoint="edit_user")
+api.add_resource(EditUserTrail, "/user_trail/<int:trail_id>", endpoint="user_trail")
 
 
 if __name__ == '__main__':
