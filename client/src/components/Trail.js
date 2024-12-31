@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { ResponseMessageContext } from "./ResponseMessageProvider";
 
@@ -8,6 +8,8 @@ function Trail({ id, name, address, length, description, profileImage }) {
     // for conditional JSX rendering
     const location = useLocation()
     const { trail_id } = useParams()
+    // for condtional rendering of save and hike button 
+    const [userTrail, setUserTrail] = useState(null)
 
     // Re route to Trail Page
     const handleViewTrailPageClick = () => history.push(`/trails/${id}`)
