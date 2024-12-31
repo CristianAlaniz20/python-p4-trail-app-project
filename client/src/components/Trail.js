@@ -74,8 +74,8 @@ function Trail({ id, name, address, length, description, profileImage }) {
             </div>
             {/* condtional JSX rendering based on current path */}
             {trail_id ? null : <button onClick={handleViewTrailPageClick} >View Trail Page</button>}
-            { location.pathname === "/user" ? null : <button onClick={handleSaveTrailClick} >Save Trail</button>}
-            { location.pathname === "/user" ? null : <button onClick={handleHikedTrailClick} >Mark as Hiked</button>}
+            { userTrail && userTrail.is_saved ? <button onClick={handleUnsaveTrailClick} >Unsave Trail</button> : <button onClick={handleSaveTrailClick} >Save Trail</button>}
+            { userTrail && userTrail.is_hiked ? <button onClick={handleMarkAsNotHikedClick} >Mark as not Hiked</button> : <button onClick={handleHikedTrailClick} >Mark as Hiked</button>}
         </>
     )
 }
