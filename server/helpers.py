@@ -48,5 +48,11 @@ def handle_exception(exception):
     db.session.rollback()
     return make_response(jsonify({'error': f"{str(exception)}"}), 500)
 
+# duplicate username response
 def duplicate_username():
     return make_response(jsonify({"error" : "User with that username already exists."}), 400)
+
+# Checks if user trail has any value 
+def check_if_user_trail(user_trail):
+    if not user_trail:
+        return make_response(jsonify({"error" : "Could not find a user trail record."}), 404)
