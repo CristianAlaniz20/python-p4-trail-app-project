@@ -742,15 +742,11 @@ class EditUserTrail(Resource):
             if not user_trail.is_saved == updated_user_trail["is_saved"]:
                 user_trail.is_saved = updated_user_trail["is_saved"]
                 message = "Trail successfully unsaved."
-            else:
-                message = "Trail is unsaved."
 
             # Checks if user_trail.is_hiked has the same value as updated_user_trail.is_hiked
             if not user_trail.is_hiked == updated_user_trail["is_hiked"]:
                 user_trail.is_hiked = updated_user_trail["is_hiked"]
                 message = "Trail succesfully marked as not hiked."
-            else:
-                message = "Trail is marked as not hiked."
 
             # commit changed to db
             db.session.commit()
