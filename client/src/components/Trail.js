@@ -71,6 +71,20 @@ function Trail({ id, name, address, length, description, profileImage }) {
         updateUserTrail()
     }
 
+    function updateUserTrail() {
+        // PUT request to EditUserTrail resource
+        fetch(`/user_trail/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userTrail, null, 2),
+        })
+        .then(res => handleResponse(res))
+        .catch(error => console.error(error))
+    }
+    
+
     return (
         <>
             <div>
