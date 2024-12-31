@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { ResponseMessageContext } from "./ResponseMessageProvider";
 
@@ -58,6 +58,18 @@ function Trail({ id, name, address, length, description, profileImage }) {
         })
         .catch(error => console.error(error))
     }, [])
+
+    // handle Unsave Trail button click
+    function handleUnsaveTrailClick() {
+        userTrail.is_saved = false
+        updateUserTrail()
+    }
+
+    // handle Mark As Not Hiked button click
+    function handleMarkAsNotHikedClick() {
+        userTrail.is_hiked = false
+        updateUserTrail()
+    }
 
     return (
         <>
