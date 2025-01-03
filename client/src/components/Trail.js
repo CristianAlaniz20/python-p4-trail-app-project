@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { ResponseMessageContext } from "./ResponseMessageProvider";
+import "../styling/Trail.css"
 
 function Trail({ id, name, address, length, description, profileImage }) {
     const history = useHistory()
@@ -86,8 +87,8 @@ function Trail({ id, name, address, length, description, profileImage }) {
     
 
     return (
-        <>
-            <div>
+        <div className="trail" >
+            <>
                 <img className="trail-pic" src={profileImage} alt={`${name} trail-pic`} />
                 <h4 className="trail-name" >{name}</h4>
                 {location.pathname === "/user" ? null : (
@@ -97,12 +98,12 @@ function Trail({ id, name, address, length, description, profileImage }) {
                         <p className="trail-description" >{description}</p>
                     </>
                 )}
-            </div>
+            </>
             {/* condtional JSX rendering based on current path */}
             {trail_id ? null : <button onClick={handleViewTrailPageClick} >View Trail Page</button>}
             { userTrail && userTrail.is_saved ? <button onClick={handleUnsaveTrailClick} >Unsave Trail</button> : <button onClick={handleSaveTrailClick} >Save Trail</button>}
             { userTrail && userTrail.is_hiked ? <button onClick={handleMarkAsNotHikedClick} >Mark as not Hiked</button> : <button onClick={handleHikedTrailClick} >Mark as Hiked</button>}
-        </>
+        </div>
     )
 }
 
