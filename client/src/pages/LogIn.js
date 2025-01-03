@@ -3,6 +3,7 @@ import LogInForm from "../components/LogInForm";
 import SignUpForm from "../components/SignUpForm";
 import ResponseMessage from "../components/ResponseMessage";
 import { ResponseMessageContext }from "../components/ResponseMessageProvider";
+import Header from "../components/Header";
 
 function LogIn({ onLogin }) {
     const [hasAccount, setHasAccount] = useState(true)
@@ -10,6 +11,7 @@ function LogIn({ onLogin }) {
 
     return (
         <div>
+            <Header />
             {/* conditionally shows Login form or Signup form */}
             {hasAccount ? (
                 <>
