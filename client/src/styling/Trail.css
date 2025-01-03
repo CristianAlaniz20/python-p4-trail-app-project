@@ -1,0 +1,12 @@
+.trail {
+    border: 1px solid;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    text-align: center;
+}
+
+.trail-pic {
+    width: 60%;
+    height: auto;
+}
