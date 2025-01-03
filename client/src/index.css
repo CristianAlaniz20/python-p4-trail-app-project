@@ -1,7 +1,8 @@
 :root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+  background-color: rgb(195, 162, 162);
+  color: black;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
 }
 
