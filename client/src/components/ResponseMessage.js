@@ -30,8 +30,8 @@ function ResponseMessage() {
 
     // Response Message CSS styling
     const messageStyle = {
-        color: status,
-        border: '1px solid',
+        backgroundColor: status,
+        color: 'white',
         padding: '10px',
         margin: '10px 0',
     };
