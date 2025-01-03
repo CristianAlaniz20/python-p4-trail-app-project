@@ -12,8 +12,15 @@ function NavBar({ user, setUser }) {
         .catch(error => console.error(error))
     }
 
+    // NavBar CSS styling
+    const NavBarStyling = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+    }
+
     return (
-        <nav>
+        <nav style={NavBarStyling}>
             <Link to="/">
                 <button>Home</button>
             </Link>
