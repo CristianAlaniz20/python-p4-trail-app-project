@@ -9,6 +9,7 @@ function Home() {
     const [hasSearched, setHasSearched] = useState(false)
     const { handleResponse } = useContext(ResponseMessageContext)
 
+    // formik schema validation
     const formSchema = yup.object().shape({
       city: yup.string().required("must enter a city!")
     })
@@ -33,9 +34,18 @@ function Home() {
         },
     })
 
+    // CSS styling
+    const divStyle = {
+      textAlign: 'center',
+    }
+
+    const disclaimerStyle = {
+      fontStyle: 'italic'
+    }
+
     return (
-        <>
-            <p>Disclaimer: If what you entered matches an address, it will be included in the result.</p>
+        <div style={divStyle} >
+            <p style={disclaimerStyle} >Disclaimer: If what you entered matches an address, it will be included in the result.</p>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="city" >Enter City Here: </label>
                 <input 
@@ -51,7 +61,7 @@ function Home() {
             ) : (
                 <h4>Trails awaits you...</h4>
             )}
-        </>
+        </div>
     )
 }
 
