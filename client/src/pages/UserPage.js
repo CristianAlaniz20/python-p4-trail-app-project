@@ -3,6 +3,7 @@ import AllTrails from "../components/AllTrails";
 import ChangeAccountRole from "../components/ChangeAccountRole";
 import UpdateUserPage from "./UpdateUserPage";
 import DeleteUserPage from "./DeleteUserPage";
+import "../styling/UserPage.css"
 
 function UserPage({ user, setUser }) {
     const [savedTrails, setSavedTrails] = useState([])
@@ -54,7 +55,7 @@ function UserPage({ user, setUser }) {
     if (deleteAccount) return <DeleteUserPage setDeleteAccount={setDeleteAccount} setUser={setUser} />
 
     return (
-        <div>
+        <div className="user" >
             <h1 className="user-username" >Username: {user.username}</h1>
             <img className="user-profile-pic" src={user.profile_image_url} alt={`${user.username} trail-pic`} />
             <p className="user-bio" >Bio: {user.bio}</p>
