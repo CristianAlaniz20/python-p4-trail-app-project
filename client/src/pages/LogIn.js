@@ -9,8 +9,13 @@ function LogIn({ onLogin }) {
     const [hasAccount, setHasAccount] = useState(true)
     const {message, statusCode} = useContext(ResponseMessageContext)
 
+    // CSS styling
+    const loginStyle = {
+        textAlign: "center",
+    }
+
     return (
-        <div>
+        <div style={loginStyle}>
             <Header />
             {/* conditionally shows Login form or Signup form */}
             {hasAccount ? (
