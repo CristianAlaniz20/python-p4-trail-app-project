@@ -19,8 +19,13 @@ function DeleteUserPage({ setDeleteAccount, setUser }) {
     // handle NO button click
     const handleNoClick = () => setDeleteAccount(false)
 
+    // CSS styling 
+    const deleteUserPageStyle = {
+        textAlign: "center",
+    }
+
     return (
-        <div>
+        <div style={deleteUserPageStyle} >
             <p>
                 All account information will be lost.
                 Are you sure you want to delete your account?
