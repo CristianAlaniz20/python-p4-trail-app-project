@@ -47,8 +47,6 @@ function PasswordConfirmation({ setPasswordConfirmed, setUserPassword }) {
                     onChange={formik.handleChange}
                     value={formik.values.confirmationPassword}
                 />
-                <br />
-
                 <button type="submit" >Check Password</button>
             </form>
         </div>
