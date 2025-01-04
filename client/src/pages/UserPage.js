@@ -55,9 +55,9 @@ function UserPage({ user, setUser }) {
 
     return (
         <div>
-            <h1 id="user-username" >Username: {user.username}</h1>
-            <img id="user-profile-pic" src={user.profile_image_url} alt={`${user.username} trail-pic`} />
-            <p id="user-bio" >Bio: {user.bio}</p>
+            <h1 className="user-username" >Username: {user.username}</h1>
+            <img className="user-profile-pic" src={user.profile_image_url} alt={`${user.username} trail-pic`} />
+            <p className="user-bio" >Bio: {user.bio}</p>
             <p>Role: {user.role}</p>
             <br />
 
