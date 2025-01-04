@@ -33,8 +33,13 @@ function ChangeAccountRole({ setShowChangeAccRole }) {
     // handle Back to User Information button click
     const handleBackToUserInfoClick = () => setShowChangeAccRole(false)
 
+    // CSS styling
+    const changeRoleStyle = {
+        textAlign: "center",
+    }
+
     return (
-        <div>
+        <div style={changeRoleStyle} >
             <h2>Change Account Role Form</h2>
             <form onSubmit={formik.handleSubmit} >
                 <label htmlFor="adminSecretKey">Enter Admin Secret Key:</label>
