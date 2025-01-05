@@ -1,6 +1,10 @@
 # Hiking Trails by City
 
-This website was made for hiking enthusiasts. A user must make an account before getting access to the website features. Once logged in, a user can: 
+This website was made for hiking enthusiasts. It allows users to search for hiking trails by entering a city name.
+
+## Usage
+
+A user must make an account before getting access to the website features. Once logged in, a user can: 
 * Search for hiking trails by typing in the name of a city
 * Create their own review for a trail
 * Read the reviews of a trail
@@ -14,8 +18,7 @@ A user can also view their account information which includes:
 * List of saved trails
 * list of hiked trails
 
-A user also has the option of updating or deletint their account.
-
+A user also has the option of updating or deleting their account.
 
 ## Introduction
 
