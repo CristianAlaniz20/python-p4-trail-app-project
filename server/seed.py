@@ -75,21 +75,6 @@ if __name__ == '__main__':
         db.session.add_all(trails)
         db.session.commit()
 
-        # Create UserTrail records
-        print("Creating UserTrails...")  
-        user_trails = []
-
-        for i in range(15):
-            user_trail = UserTrail(
-                user = rc(users),
-                trail = rc(trails)
-            )
-
-            user_trails.append(user_trail)
-
-        db.session.add_all(user_trails)
-        db.session.commit()
-
         # Create Review records
         print("Creating Reviews...")
         reviews = []
