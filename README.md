@@ -83,6 +83,20 @@ On this page you will be able to:
 
 ![User Page Image](images/UserPageSS.png)
 
+## Changing Account Role
+
+This feature is exclusive to administrators.
+
+## Updating Account Information
+
+To update the account information:
+1. click the _Update Account_ button
+2. Enter your password to verify
+3. Update the fields you wish to change
+4. click _Update Account_
+
+![Update User Account gif](gifs/UpdateAccount-ezgif.com-video-to-gif-converter.gif)
+
 ## Introduction
 
 Fork and clone this 
