@@ -37,10 +37,14 @@ function ReviewForm() {
 
     // Re routes to Trail Page
     const handleBackToTrailClick = () => history.push(`/trails/${trail_id}`)
+
+    const reviewFormStyle = {
+        textAlign: "center",
+    }
     
     return (
-        <>
-            <h2>Create A Review Form:</h2>
+        <div style={reviewFormStyle}>
+            <h2>Create A Review Form</h2>
             <form onSubmit={formik.handleSubmit} >
                 <label htmlFor="rating" >Rating: </label>
                 <input 
@@ -62,8 +66,9 @@ function ReviewForm() {
 
                 <button type="submit" >Create Review</button>
             </form>
+            <p>OR</p>
             <button onClick={handleBackToTrailClick}>Back to Trail</button>
-        </>
+        </div>
     )
 }
 
