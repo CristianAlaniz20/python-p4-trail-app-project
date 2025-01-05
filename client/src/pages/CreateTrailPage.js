@@ -11,7 +11,7 @@ function CreateTrailPage() {
         trailName: yup.string().required("Must have a name."),
         trailAddress: yup.string().required("Must have full address."),
         trailLength: yup.string().required("Must enter trail length."),
-        trailDescription: yup.string().required("Must have a description.").max(100, "Cannot have 100 or more characters."),
+        trailDescription: yup.string().required("Must have a description.").max(300, "Cannot have 300 or more characters."),
         trailImageUrl: yup.string().required("Must have an image url")
     })
 
@@ -96,7 +96,7 @@ function CreateTrailPage() {
                     value={formik.values.trailImageUrl}
                 />
                 <br />
-                
+
                 <button type="submit">Create Trail</button>
             </form>
         </div>
