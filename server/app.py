@@ -640,7 +640,13 @@ class EditUser(Resource):
             # Commit changed to db
             db.session.commit()
 
-            return make_response(jsonify({"message" : "User successfully updated!"}), 200)
+            # 
+            response = {
+                "message" : "User successfully updated!",
+                "expected_data" : user.to_dict()
+            }
+
+            return make_response(jsonify(response), 200)
 
         # Model column constraints errors
         except IntegrityError:
