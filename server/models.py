@@ -56,9 +56,9 @@ class Trail(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     address = db.Column(db.String, nullable=False)
-    length = db.Column(db.Float)
-    description = db.Column(db.String)
-    image_url = db.Column(db.String)
+    length = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    image_url = db.Column(db.String, nullable=False)
 
     # Create model relationships
     user_trails = db.relationship("UserTrail", back_populates="trail", cascade="all, delete-orphan")
