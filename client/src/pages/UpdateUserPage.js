@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UpdateUser from "../components/UpdateUser";
 import PasswordConfirmation from "../components/PasswordConfirmation";
 
-function UpdateUserPage({ user, setUpdateUser }) {
+function UpdateUserPage({ user, setUser, setUpdateUser }) {
     const [passwordConfirmed, setPasswordConfirmed] = useState(false)
     const [userPassword, setUserPassword] = useState("")
 
@@ -14,7 +14,7 @@ function UpdateUserPage({ user, setUpdateUser }) {
         <div style={updateUserStyle} >
             <h2>Update User Page</h2>
             {passwordConfirmed ? 
-                <UpdateUser user={user} setUpdateUser={setUpdateUser} userPassword={userPassword} /> :
+                <UpdateUser user={user} setUser={setUser} setUpdateUser={setUpdateUser} userPassword={userPassword} /> :
                 <PasswordConfirmation setPasswordConfirmed={setPasswordConfirmed} setUserPassword={setUserPassword} />
             }
         </div>
