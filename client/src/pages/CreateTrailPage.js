@@ -37,9 +37,14 @@ function CreateTrailPage() {
             .catch(error => console.error(error))
         }
     })
+
+    // CSS styling
+    const createTrailPageStyle = {
+        textAlign: "center",
+    }
     
     return (
-        <div>
+        <div style={createTrailPageStyle} >
             <h2>Create Trail Page Form</h2>
             <form onSubmit={formik.handleSubmit}>
                 <label htmlFor="trailName" >Trail Name:</label>
@@ -90,6 +95,8 @@ function CreateTrailPage() {
                     onChange={formik.handleChange}
                     value={formik.values.trailImageUrl}
                 />
+                <br />
+                
                 <button type="submit">Create Trail</button>
             </form>
         </div>
