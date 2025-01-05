@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { ResponseMessageContext } from "./ResponseMessageProvider";
 
-function UpdateUser({ user, setUpdateUser, userPassword }) {
+function UpdateUser({ user, setUser, setUpdateUser, userPassword }) {
     const { handleResponse } = useContext(ResponseMessageContext)
 
     // verification for the form inputs
@@ -33,6 +33,7 @@ function UpdateUser({ user, setUpdateUser, userPassword }) {
               body: JSON.stringify(values, null, 2),
             })
             .then((res) => handleResponse(res, () => setUpdateUser(false)))
+            .then(resUser => setUser(resUser))
             .catch(error => console.error(error))
           },
         })
