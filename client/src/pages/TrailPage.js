@@ -35,8 +35,13 @@ function TrailPage() {
     // Re routes to Review Page
     const handleCreateReviewButtonClick = () => history.push(`/reviews/${trail_id}`)
 
+    // CSS styling
+    const trailPageStyle = {
+        textAlign: "center",
+    }
+
     return (
-        <>
+        <div style={trailPageStyle}>
             <Trail
                 id={trail.id}
                 name={trail.name} 
@@ -66,7 +71,7 @@ function TrailPage() {
             ) : (
                 <h4>This trail has no reviews.</h4>
             ) }
-        </>
+        </div>
     )
 
 }
