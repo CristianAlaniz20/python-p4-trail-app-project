@@ -48,6 +48,19 @@ If a city you entered is not in our database, you will be met with a message say
 
 ![Search by City gif](gifs/SearchForCity-ezgif.com-video-to-gif-converter.gif)
 
+## Viewing Trail Page
+
+After searching for a city and finding a trail that interests you, you can click the _View Trail Page_ button.
+
+Doing so will allow you to:
+1. View the trails information
+2. Save the trail
+3. Mark the trail as hiked
+4. See a list of all the trail reviews
+5. Create a review for the trail
+
+![View Trail Page Image](images/ViewTrailPageSS.png)
+
 ## Introduction
 
 Fork and clone this 
