@@ -32,7 +32,7 @@ The other fields are assigned a default value if left blank.
 
 Additionally, all usernames are unique.
 
-![Signup gif](Signup-ezgif.com-video-to-gif-converter.gif)
+![Signup gif](gifs/Signup-ezgif.com-video-to-gif-converter.gif)
 
 ## Introduction
 
