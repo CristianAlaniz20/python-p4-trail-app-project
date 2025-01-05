@@ -49,7 +49,7 @@ function UserPage({ user, setUser }) {
     if (showChangeAccRole) return <ChangeAccountRole setShowChangeAccRole={setShowChangeAccRole} />
 
     // if updateUser is true return/redirect to UpdateUserPage
-    if (updateUser) return <UpdateUserPage user={user} setUpdateUser={setUpdateUser} />
+    if (updateUser) return <UpdateUserPage user={user} setUser={setUser} setUpdateUser={setUpdateUser} />
 
     // if deleteAccout is true return/redirect to UpdateUserPage
     if (deleteAccount) return <DeleteUserPage setDeleteAccount={setDeleteAccount} setUser={setUser} />
