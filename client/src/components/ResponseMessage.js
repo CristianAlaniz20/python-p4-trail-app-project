@@ -32,8 +32,14 @@ function ResponseMessage() {
     const messageStyle = {
         backgroundColor: status,
         color: 'white',
-        padding: '10px',
         margin: '10px 0',
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        padding: "20px",
+        borderRadius: "10px",
+        zIndex: "1000",
     };
 
     return <div style={messageStyle} >{message}</div>
