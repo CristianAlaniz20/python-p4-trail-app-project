@@ -69,6 +69,20 @@ You will be redirected to a page. Once there, you can fill out the form and pres
 
 ![Create Review gif](gifs/CreateReview-ezgif.com-video-to-gif-converter.gif)
 
+## User Page
+
+After clicking the _My Account_ button, you will be redirected to the user page. 
+
+On this page you will be able to:
+1. View your account information
+2. Change account role
+3. Update account information
+4. Delete account
+5. See a list of saved trails
+6. See a list of hiked trails
+
+![User Page Image](images/UserPageSS.png)
+
 ## Introduction
 
 Fork and clone this 
