@@ -20,6 +20,20 @@ A user can also view their account information which includes:
 
 A user also has the option of updating or deleting their account.
 
+## Signing Up
+
+Signing up is straightforward. Enter an input into all the fields available. 
+
+Only these fields are required to sign up:
+* username
+* password
+
+The other fields are assigned a default value if left blank.
+
+Additionally, all usernames are unique.
+
+![Signup gif](Signup-ezgif.com-video-to-gif-converter.gif)
+
 ## Introduction
 
 Fork and clone this 
