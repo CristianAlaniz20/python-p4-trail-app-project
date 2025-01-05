@@ -26,7 +26,10 @@ function Trail({ id, name, address, length, description, profileImage }) {
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
-        .then(res => handleResponse(res))
+        .then(res => {
+            userTrail.is_saved = true
+            handleResponse(res)
+        })
         .catch(error => console.error(error))
     }
 
@@ -41,7 +44,10 @@ function Trail({ id, name, address, length, description, profileImage }) {
             },
             body: JSON.stringify(trailIdObject, null, 2),
         })
-        .then(res => handleResponse(res))
+        .then(res => {
+            userTrail.is_hiked = true
+            handleResponse(res)
+        })
         .catch(error => console.error(error))
     }
 
