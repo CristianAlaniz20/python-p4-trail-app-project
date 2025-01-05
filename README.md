@@ -2,6 +2,8 @@
 
 This website was made for hiking enthusiasts. It allows users to search for hiking trails by entering a city name.
 
+**Disclaimer: All trail and signup information you may see in the gifs below is for demonstration purposes only. It is not accurate!** 
+
 ## Usage
 
 A user must make an account before getting access to the website features. Once logged in, a user can: 
@@ -37,6 +39,14 @@ The other fields are assigned a default value if left blank.
 Additionally, all usernames are unique.
 
 ![Signup gif](gifs/Signup-ezgif.com-video-to-gif-converter.gif)
+
+## Searching by City
+
+Simply enter a city name, click search, and the results will be shown underneath.
+
+If a city you entered is not in our database, you will be met with a message saying "Sorry, no trails were found!".
+
+![Search by City gif](gifs/SearchForCity-ezgif.com-video-to-gif-converter.gif)
 
 ## Introduction
 
