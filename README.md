@@ -20,9 +20,13 @@ A user can also view their account information which includes:
 
 A user also has the option of updating or deleting their account.
 
-## Signing Up
+## Login / Signing Up
 
-Signing up is straightforward. Enter an input into all the fields available. 
+### Login
+
+Logging is straightforward. Enter your credentials and click Log In.
+
+### Signing Up
 
 Only these fields are required to sign up:
 * username
@@ -33,12 +37,6 @@ The other fields are assigned a default value if left blank.
 Additionally, all usernames are unique.
 
 ![Signup gif](gifs/Signup-ezgif.com-video-to-gif-converter.gif)
-
-## Login
-
-Logging is straightforward as well. Enter your credentials and click Log In.
-
-![Login gif](gifs/Login-ezgif.com-video-to-gif-converter.gif)
 
 ## Introduction
 
