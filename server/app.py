@@ -13,6 +13,8 @@ from config import app, db, api
 from models import User, Trail, UserTrail, Review
 # Helper functions imports
 from helpers import check_if_data, check_if_user_id, check_if_user, check_if_trail_id, check_if_trail, check_if_attribute, check_if_new_instance, handle_integrity_error, handle_exception, duplicate_username, check_if_user_trail
+# Default value imports
+from default_values import default_profile_url, default_bio
 
 # Views go here!
 
@@ -43,6 +45,13 @@ class Signup(Resource):
             # Check if a user with the username already exists
             if User.query.filter(User.username == username).first():
                 return duplicate_username()
+
+            # Check if image_url and bio have any value
+            if not image_url:
+                image_url = default_profile_url
+
+            if not bio:
+                bio = default_bio
 
             # create new user instance
             new_user = User(username=username, profile_image_url=image_url, bio=bio)
