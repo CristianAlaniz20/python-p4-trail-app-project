@@ -26,7 +26,7 @@ function App() {
       }
     })
     .catch(error => console.error(error))
-  }, []);
+  }, [user, setUser]);
 
   // Check if user state has a value and return LogIn component if doesn't
   if (!user) {
