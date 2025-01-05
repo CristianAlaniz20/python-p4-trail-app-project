@@ -64,7 +64,7 @@ function Trail({ id, name, address, length, description, profileImage }) {
             }
         })
         .catch(error => console.error(error))
-    }, [])
+    }, [id])
 
     // handle Unsave Trail button click
     function handleUnsaveTrailClick() {
