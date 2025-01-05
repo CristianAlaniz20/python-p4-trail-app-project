@@ -55,6 +55,7 @@ function UpdateUser({ user, setUpdateUser, userPassword }) {
                 <input
                 id='newPassword'
                 name='newPassword'
+                type="password"
                 onChange={formik.handleChange}
                 value={formik.values.newPassword}
                 />
