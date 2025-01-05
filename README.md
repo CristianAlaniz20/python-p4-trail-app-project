@@ -61,6 +61,14 @@ Doing so will allow you to:
 
 ![View Trail Page Image](images/ViewTrailPageSS.png)
 
+## Creating a Review
+
+To create a review press the _Create Review_ button. 
+
+You will be redirected to a page. Once there, you can fill out the form and press the _Create Review_ button to create the review.
+
+![Create Review gif](gifs/CreateReview-ezgif.com-video-to-gif-converter.gif)
+
 ## Introduction
 
 Fork and clone this 
