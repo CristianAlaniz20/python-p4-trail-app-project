@@ -97,6 +97,15 @@ To update the account information:
 
 ![Update User Account gif](gifs/UpdateAccount-ezgif.com-video-to-gif-converter.gif)
 
+## Deleting Account
+
+Deleting your account is straightforward. 
+
+1. Click the _Delete Account_ button
+2. Click the _YES_ button
+
+![Delete Account gif](gifs/DeleteAccount-ezgif.com-video-to-gif-converter.gif)
+
 ## Introduction
 
 Fork and clone this 
